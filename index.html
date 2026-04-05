@@ -137,13 +137,19 @@
         .ibx code{background:var(--bg2);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px}
         @media(max-width:768px){.wrap{padding:14px}}
         @media print{.np{display:none!important}}
-        .up-preview{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;background:var(--bg)}
+        .up-preview{max-height:200px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin:8px 0;background:var(--bg)}
         .up-preview table{width:100%;border-collapse:collapse;font-size:10px}
         .up-preview th{background:var(--accent);color:#fff;padding:6px 8px;text-align:left;font-weight:700;position:sticky;top:0;z-index:2}
-        .up-preview td{padding:5px 8px;border-bottom:1px solid var(--border)}
+        .up-preview td{padding:4px 8px;border-bottom:1px solid var(--border)}
         .up-preview .match{color:var(--accent);font-weight:700}
         .up-preview .nomatch{color:var(--danger);font-weight:700}
-        .up-preview .ignored{color:var(--muted);font-style:italic}
+        #upPreviewBody::-webkit-scrollbar{width:6px}
+        #upPreviewBody::-webkit-scrollbar-track{background:var(--bg);border-radius:3px}
+        #upPreviewBody::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+        #upPreviewBody::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+        .up-preview::-webkit-scrollbar{width:5px}
+        .up-preview::-webkit-scrollbar-track{background:transparent}
+        .up-preview::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
     </style>
 </head>
 <body>
@@ -153,7 +159,7 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
             <div class="flex items-center gap-4">
                 <div class="bicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18"/></svg></div>
-                <div><h1 class="text-xl font-extrabold tracking-tight">Subham Grand</h1><p class="text-xs font-medium" style="color:var(--muted)">Readymade Supply Intelligence — Cloud</p></div>
+                <div><h1 class="text-xl font-extrabold tracking-tight">Subham Grand</h1><p class="text-xs font-medium" style="color:var(--muted)">Readymade Supply Intelligence &mdash; Cloud</p></div>
             </div>
             <div class="flex flex-wrap gap-2 items-center np">
                 <div id="syncSt" class="flex items-center text-xs font-bold" style="color:var(--muted);cursor:pointer" onclick="openCloudM()" title="Cloud Settings"><span id="syncD" class="sd sd-sy"></span><span id="syncL">Loading...</span></div>
@@ -188,7 +194,7 @@
         </div>
     </div>
     <div id="tabActions" class="tc hd">
-        <div class="ln"><span style="font-size:15px">&#128274;</span><span id="lockTxt">Targets, Categories & MRP ranges are managed in Google Sheet. Only stock values are editable here.</span></div>
+        <div class="ln"><span style="font-size:15px">&#128274;</span><span id="lockTxt">Targets, Categories &amp; MRP ranges are managed in Google Sheet. Only stock values are editable here.</span></div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
             <div id="addBrC" class="card p-7"><h3 class="font-bold mb-5 text-xs uppercase tracking-wider" style="color:var(--muted)">Add Branch</h3><div class="flex gap-2"><input type="text" id="nBr" placeholder="Branch Name" class="inp"><button onclick="addBr()" class="btn btn-p">Add</button></div></div>
             <div class="card p-7" style="opacity:.55;pointer-events:none"><h3 class="font-bold mb-5 text-xs uppercase tracking-wider" style="color:var(--muted)">Add Category <span class="bg bc">SHEET</span></h3><p class="text-xs" style="color:var(--muted)">Add rows in Google Sheet &rarr; Inventory tab</p></div>
@@ -241,13 +247,13 @@
 <div id="stM" class="mo hd"><div class="mc mc-lg"><div class="p-7 flex justify-between items-center" style="background:var(--accent);color:#fff"><h2 id="stMN" class="text-lg font-bold"></h2><button onclick="closeStM()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:26px;opacity:.8">&times;</button></div><div id="stMB" class="p-7 space-y-4 max-h-[80vh] overflow-y-auto"></div><div class="p-4 flex gap-2 np" style="border-top:1px solid var(--border)"><button onclick="exportBr()" class="btn btn-i w-full">Export</button><button onclick="closeStM()" class="btn btn-o w-full">Close</button></div></div></div>
 
 <div id="upPreviewM" class="mo hd">
-    <div class="mc" style="max-width:750px">
-        <div class="p-6" style="background:linear-gradient(135deg,var(--accent),var(--accentD));color:#fff">
+    <div class="mc" style="max-width:800px;display:flex;flex-direction:column">
+        <div class="p-6" style="background:linear-gradient(135deg,var(--accent),var(--accentD));color:#fff;flex-shrink:0;border-radius:20px 20px 0 0">
             <h2 class="text-lg font-bold">Upload Preview</h2>
             <p class="text-xs opacity-80 mt-1">Verify column mapping before applying</p>
         </div>
-        <div class="p-6" id="upPreviewBody"></div>
-        <div class="p-4 flex gap-2" style="border-top:1px solid var(--border)">
+        <div class="p-6" id="upPreviewBody" style="flex:1;overflow-y:auto;min-height:0"></div>
+        <div class="p-4 flex gap-2" style="border-top:1px solid var(--border);flex-shrink:0;background:var(--bg2);border-radius:0 0 20px 20px">
             <button onclick="applyUpload()" class="btn btn-p flex-1 py-3">Apply Upload</button>
             <button onclick="cancelUpload()" class="btn btn-o flex-1 py-3">Cancel</button>
         </div>
@@ -258,15 +264,11 @@
 <div id="dbg"></div>
 
 <script>
-/* ===== STATE ===== */
-var stores=[], inv=[], mChart=null, curBrI=null, bChart=null, pChart=null;
+var stores=[],inv=[],mChart=null,curBrI=null,bChart=null,pChart=null;
 var API='https://script.google.com/macros/s/AKfycbxrP-EDOrKMTbOnQJS15URpk55GEOnPUjcJnfpr6MC7xxU0d3wAsf4L0fll4FyZCFAyew/exec';
-var cOn=false, isSy=false, cCon=false;
+var cOn=false,isSy=false,cCon=false;
+var pendingUpload=null;
 
-/* Temp storage for upload preview data */
-var pendingUpload = null;
-
-/* ===== HELPERS ===== */
 function dbg(m){var d=document.getElementById('dbg');d.style.display='block';d.innerHTML+=m+'<br>';d.scrollTop=d.scrollHeight;}
 
 function updSync(){
@@ -281,7 +283,7 @@ function updLock(locked){
     var c=document.getElementById('addBrC'),t=document.getElementById('lockTxt');if(!c)return;
     var i=c.querySelector('input'),b=c.querySelector('button'),h=c.querySelector('h3');
     if(locked){c.style.opacity='.55';c.style.pointerEvents='none';i.disabled=true;b.disabled=true;h.innerHTML='Add Branch <span class="bg bc">SHEET</span>';t.innerHTML='<strong>Cloud connected.</strong> Only stock values editable from here.';}
-    else{c.style.opacity='1';c.style.pointerEvents='auto';i.disabled=false;b.disabled=false;h.innerHTML='Add Branch';t.innerHTML='Targets, Categories & MRP ranges are managed in Google Sheet. Only stock values are editable here.';}
+    else{c.style.opacity='1';c.style.pointerEvents='auto';i.disabled=false;b.disabled=false;h.innerHTML='Add Branch';t.innerHTML='Targets, Categories &amp; MRP ranges are managed in Google Sheet. Only stock values are editable here.';}
 }
 
 async function gFetch(url,opts){
@@ -294,91 +296,63 @@ async function gFetch(url,opts){
     return JSON.parse(t);
 }
 
-/* ===== ROBUST CELL VALUE READER ===== */
 function getCV(c){
-    if(!c) return null;
-    try {
-        /* Prefer computed result (handles formulas) */
-        var v = (c.result !== undefined && c.result !== null) ? c.result : c.value;
-        if(v === null || v === undefined) return null;
-        if(typeof v === 'number') return v;
-        if(v instanceof Date) return null;
-        if(typeof v === 'boolean') return null;
-        if(typeof v === 'object'){
-            if(v.richText){
-                var txt = v.richText.map(function(r){return r.text||'';}).join('').trim();
-                return txt || null;
-            }
-            if(v.text) return v.text.trim() || null;
-            if(v.formula !== undefined){
-                /* Formula cell with no computed result */
-                return (v.result !== undefined && v.result !== null) ? v.result : null;
-            }
+    if(!c)return null;
+    try{
+        var v=(c.result!==undefined&&c.result!==null)?c.result:c.value;
+        if(v===null||v===undefined)return null;
+        if(typeof v==='number')return v;
+        if(v instanceof Date)return null;
+        if(typeof v==='boolean')return null;
+        if(typeof v==='object'){
+            if(v.richText){var txt=v.richText.map(function(r){return r.text||'';}).join('').trim();return txt||null;}
+            if(v.text)return v.text.trim()||null;
+            if(v.formula!==undefined)return(v.result!==undefined&&v.result!==null)?v.result:null;
             return null;
         }
-        if(typeof v === 'string'){
-            v = v.replace(/[\u200B\u200C\u200D\uFEFF]/g, ''); /* strip zero-width chars */
-            v = v.trim();
-            return v === '' ? null : v;
-        }
+        if(typeof v==='string'){v=v.replace(/[\u200B\u200C\u200D\uFEFF]/g,'');v=v.trim();return v===''?null:v;}
         return v;
-    } catch(e){ return null; }
+    }catch(e){return null;}
 }
 
-function pN(v){
-    if(v === null || v === undefined || v === '') return 0;
-    if(typeof v === 'number') return isNaN(v) ? 0 : Math.round(v);
-    var s = String(v).replace(/[^0-9.\-]/g, '');
-    var n = parseFloat(s);
-    return isNaN(n) ? 0 : Math.round(n);
-}
+function pN(v){if(v===null||v===undefined||v==='')return 0;if(typeof v==='number')return isNaN(v)?0:Math.round(v);var s=String(v).replace(/[^0-9.\-]/g,'');var n=parseFloat(s);return isNaN(n)?0:Math.round(n);}
 
-/* ===== NORMALIZE STRING FOR MATCHING ===== */
-function norm(s){
-    if(!s) return '';
-    return String(s).replace(/[\u200B\u200C\u200D\uFEFF]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'').trim();
-}
+function norm(s){if(!s)return '';return String(s).replace(/[\u200B\u200C\u200D\uFEFF]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'').trim();}
 
-/* ===== CLOUD SYNC ===== */
 async function syncLoad(){
-    if(!API) return false;
-    try{
-        isSy=true; updSync();
-        var d = await gFetch(API+'?action=load&t='+Date.now());
-        if(d.error) throw new Error(d.error);
-        stores = d.stores || [];
-        inv = d.inventory || [];
-        initPA(inv); enforceDI();
+    if(!API)return false;
+    try{isSy=true;updSync();
+        var d=await gFetch(API+'?action=load&t='+Date.now());
+        if(d.error)throw new Error(d.error);
+        stores=d.stores||[];inv=d.inventory||[];
+        initPA(inv);enforceDI();
         try{localStorage.setItem('sgi',JSON.stringify(inv));localStorage.setItem('sgs',JSON.stringify(stores));}catch(e){}
-        cOn=true; cCon=true;
+        cOn=true;cCon=true;
         if(!d.hasTargets){dbg('No Targets sheet - creating...');try{await initTgt();}catch(e2){dbg('initTgt: '+e2.message);}}
-        dbg('OK: '+stores.length+' stores, '+inv.length+' cats');
-        return true;
-    }catch(e){dbg('syncLoad: '+e.message); cOn=false; cCon=false; return false;}
-    finally{isSy=false; updSync();}
+        dbg('OK: '+stores.length+' stores, '+inv.length+' cats');return true;
+    }catch(e){dbg('syncLoad: '+e.message);cOn=false;cCon=false;return false;}
+    finally{isSy=false;updSync();}
 }
 
 async function syncSave(){
-    if(!API) return false;
-    try{
-        isSy=true; updSync(); enforceDI();
-        var sp = inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
-        var d = await gFetch(API,{method:'POST',body:JSON.stringify({action:'saveStock',stores:stores,inventory:sp})});
-        if(d.error) throw new Error(d.error);
-        cOn=true; dbg('Saved '+(d.cellsUpdated||0)+' cells.'); return true;
-    }catch(e){dbg('syncSave: '+e.message); cOn=false; return false;}
-    finally{isSy=false; updSync();}
+    if(!API)return false;
+    try{isSy=true;updSync();enforceDI();
+        var sp=inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
+        var d=await gFetch(API,{method:'POST',body:JSON.stringify({action:'saveStock',stores:stores,inventory:sp})});
+        if(d.error)throw new Error(d.error);cOn=true;dbg('Saved '+(d.cellsUpdated||0)+' cells.');return true;
+    }catch(e){dbg('syncSave: '+e.message);cOn=false;return false;}
+    finally{isSy=false;updSync();}
 }
 
 async function initTgt(){
     enforceDI();
-    var sp = inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
-    var d = await gFetch(API,{method:'POST',body:JSON.stringify({action:'initTargets',stores:stores,inventory:sp})});
-    if(d.error) throw new Error(d.error); return true;
+    var sp=inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
+    var d=await gFetch(API,{method:'POST',body:JSON.stringify({action:'initTargets',stores:stores,inventory:sp})});
+    if(d.error)throw new Error(d.error);return true;
 }
 
 async function resetTargets(){
-    if(!confirm('Set current stock as new baseline targets?\n\nThis OVERWRITES the Targets sheet.\nAll shortage calculations will reset.')) return;
+    if(!confirm('Set current stock as new baseline targets?\n\nThis OVERWRITES the Targets sheet.\nAll shortage calculations will reset.'))return;
     try{isSy=true;updSync();await initTgt();showToast('Targets reset - pulling...');var ok=await syncLoad();if(ok)render();}
     catch(e){showToast('Failed: '+e.message);}
     finally{isSy=false;updSync();}
@@ -389,36 +363,24 @@ function closeCloudM(){document.getElementById('cloudM').classList.add('hd');}
 async function doPull(){closeCloudM();showToast('Pulling...');var ok=await syncLoad();if(ok){render();showToast('Loaded '+stores.length+' stores, '+inv.length+' categories');}else showToast('Pull failed - check debug log');}
 async function doPush(){closeCloudM();showToast('Pushing...');var ok=await syncSave();showToast(ok?'Saved to Sheet':'Push failed');}
 
-/* ===== DATA INTEGRITY ===== */
 function sanA(a,l){if(!Array.isArray(a))return Array(l).fill(0);var c=[];for(var i=0;i<l;i++)c.push(typeof a[i]==='number'&&!isNaN(a[i])?a[i]:0);return c;}
 
 function initPA(d){
-    if(!d||!Array.isArray(d)) return;
-    var l=stores.length;
-    d.forEach(function(c){
-        c.present=sanA(c.present,l); c.base=sanA(c.base,l);
-        if(Array.isArray(c.mrpDetails)){
-            c.mrpDetails=c.mrpDetails.filter(function(m){return m&&typeof m.range==='string'&&m.range.trim()!=='';});
-            c.mrpDetails.forEach(function(m){m.base=sanA(m.base,l);m.present=sanA(m.present,l);});
-        }else{c.mrpDetails=[];}
+    if(!d||!Array.isArray(d))return;var l=stores.length;
+    d.forEach(function(c){c.present=sanA(c.present,l);c.base=sanA(c.base,l);
+        if(Array.isArray(c.mrpDetails)){c.mrpDetails=c.mrpDetails.filter(function(m){return m&&typeof m.range==='string'&&m.range.trim()!=='';});c.mrpDetails.forEach(function(m){m.base=sanA(m.base,l);m.present=sanA(m.present,l);});}else{c.mrpDetails=[];}
     });
 }
 
 function enforceDI(){
-    var l=stores.length;
-    if(!Array.isArray(inv)) inv=[];
+    var l=stores.length;if(!Array.isArray(inv))inv=[];
     inv=inv.filter(function(c){return c&&typeof c.name==='string'&&c.name.trim()!=='';});
     inv.forEach(function(c){
-        if(!Array.isArray(c.mrpDetails)) c.mrpDetails=[];
+        if(!Array.isArray(c.mrpDetails))c.mrpDetails=[];
         c.mrpDetails=c.mrpDetails.filter(function(m){return m&&typeof m.range==='string'&&m.range.trim()!=='';});
         c.mrpDetails.forEach(function(m){m.base=sanA(m.base,l);m.present=sanA(m.present,l);});
-        if(c.mrpDetails.length>0){
-            c.base=Array(l).fill(0); c.present=Array(l).fill(0);
-            c.mrpDetails.forEach(function(m){
-                m.base.forEach(function(v,i){c.base[i]+=v||0;});
-                m.present.forEach(function(v,i){c.present[i]+=v||0;});
-            });
-        }else{c.base=sanA(c.base,l);c.present=sanA(c.present,l);}
+        if(c.mrpDetails.length>0){c.base=Array(l).fill(0);c.present=Array(l).fill(0);c.mrpDetails.forEach(function(m){m.base.forEach(function(v,i){c.base[i]+=v||0;});m.present.forEach(function(v,i){c.present[i]+=v||0;});});}
+        else{c.base=sanA(c.base,l);c.present=sanA(c.present,l);}
     });
 }
 
@@ -433,28 +395,20 @@ async function saveData(){
 function loadLocal(){
     var i=localStorage.getItem('sgi'),s=localStorage.getItem('sgs');
     if(i&&s){try{inv=JSON.parse(i);stores=JSON.parse(s);if(!Array.isArray(stores))stores=[];initPA(inv);enforceDI();}catch(e){inv=[];stores=[];}}
-    else{inv=[];stores=[];}
-    cCon=false;
+    else{inv=[];stores=[];}cCon=false;
 }
 
 function clearStock(){
-    if(!confirm('Set ALL stock to 0?')) return;
-    inv.forEach(function(c){
-        c.present=Array(stores.length).fill(0);
-        c.mrpDetails.forEach(function(m){m.present=Array(stores.length).fill(0);});
-    });
-    enforceDI(); saveData(); render();
+    if(!confirm('Set ALL stock to 0?'))return;
+    inv.forEach(function(c){c.present=Array(stores.length).fill(0);c.mrpDetails.forEach(function(m){m.present=Array(stores.length).fill(0);});});
+    enforceDI();saveData();render();
 }
 
-/* ===== RENDER ===== */
 function render(){enforceDI();renderMatrix();updUI();}
 
 function updUI(){
     var co='',bo='',gT=0,gS=0;
-    inv.forEach(function(c,i){
-        co+='<option value="'+i+'">'+c.name+'</option>';
-        c.base.forEach(function(v,s){gT+=v||0;gS+=c.present[s]||0;});
-    });
+    inv.forEach(function(c,i){co+='<option value="'+i+'">'+c.name+'</option>';c.base.forEach(function(v,s){gT+=v||0;gS+=c.present[s]||0;});});
     stores.forEach(function(s,i){bo+='<option value="'+i+'">'+s+'</option>';});
     document.getElementById('sTB').textContent=gT.toLocaleString();
     document.getElementById('sTS').textContent=gS.toLocaleString();
@@ -510,17 +464,16 @@ function renderMatrix(){
 
 function editSt(ci,mi,si){
     var v=inv[ci].mrpDetails[mi].present[si]||0;
-    var n=prompt("New Stock Value:",v);if(n===null) return;
-    var num=parseInt(n);if(isNaN(num)||num<0) return;
-    inv[ci].mrpDetails[mi].present[si]=num; enforceDI(); saveData(); render();
+    var n=prompt("New Stock Value:",v);if(n===null)return;
+    var num=parseInt(n);if(isNaN(num)||num<0)return;
+    inv[ci].mrpDetails[mi].present[si]=num;enforceDI();saveData();render();
 }
 
 function refreshCharts(){
-    var sel=document.getElementById('cFilter');if(!sel) return;
-    var ci=parseInt(sel.value)||0;var cat=inv[ci];if(!cat) return;
-    if(mChart) mChart.destroy();
-    var dk=document.body.classList.contains('dark');
-    var tc=dk?'#e6f1ff':'#102a43',gl=dk?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)';
+    var sel=document.getElementById('cFilter');if(!sel)return;
+    var ci=parseInt(sel.value)||0;var cat=inv[ci];if(!cat)return;
+    if(mChart)mChart.destroy();
+    var dk=document.body.classList.contains('dark'),tc=dk?'#e6f1ff':'#102a43',gl=dk?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)';
     mChart=new Chart(document.getElementById('mainC'),{type:'bar',data:{labels:stores,datasets:[{label:'Target',data:cat.base.slice(),backgroundColor:dk?'rgba(100,255,218,.25)':'rgba(0,184,148,.2)',borderColor:dk?'#64ffda':'#00b894',borderWidth:2,borderRadius:4},{label:'Stock',data:cat.present.slice(),backgroundColor:dk?'rgba(78,168,222,.25)':'rgba(9,132,227,.2)',borderColor:dk?'#7dd3fc':'#0984e3',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:tc,font:{weight:'bold'}}}},scales:{x:{grid:{color:gl},ticks:{color:tc,font:{weight:'bold'}}},y:{beginAtZero:true,grid:{color:gl},ticks:{color:tc}}}}});
 }
 
@@ -528,356 +481,131 @@ function swTab(t,btn){
     document.querySelectorAll('.tc').forEach(function(e){e.classList.add('hd');});
     document.querySelectorAll('.tab').forEach(function(e){e.classList.remove('on');});
     document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.remove('hd');
-    if(btn) btn.classList.add('on');
-    if(t==='analytics') refreshCharts();
+    if(btn)btn.classList.add('on');
+    if(t==='analytics')refreshCharts();
 }
 
-/* ========================================================
-   UPLOAD STOCK — FULLY REWRITTEN FOR ACCURACY
-   ======================================================== */
-
-/* Headers to ignore when scanning for store names */
-var IGNORE_HEADERS = [
-    'CATEGORY','CATEGORIES','ITEM','ITEMS','PRODUCT','PRODUCTS',
-    'MRP','MRP/SIZE','MRP SIZE','MRPSIZE','SIZE','SIZES',
-    'TOTAL','GRAND TOTAL','GRANDTOTAL','SUBTOTAL','SUB TOTAL',
-    'SR NO','SRNO','SR. NO','S.NO','SNO','S NO','SL NO','SLNO',
-    'REMARKS','REMARK','NOTE','NOTES','COMMENT',
-    'SN','SERIAL','ROW','INDEX','NO','#','NUM'
-];
+/* ===== UPLOAD STOCK ===== */
+var IGNORE_HEADERS=['CATEGORY','CATEGORIES','ITEM','ITEMS','PRODUCT','PRODUCTS','MRP','MRP/SIZE','MRP SIZE','MRPSIZE','SIZE','SIZES','TOTAL','GRAND TOTAL','GRANDTOTAL','SUBTOTAL','SUB TOTAL','SR NO','SRNO','SR. NO','S.NO','SNO','S NO','SL NO','SLNO','REMARKS','REMARK','NOTE','NOTES','COMMENT','SN','SERIAL','ROW','INDEX','NO','#','NUM'];
 
 function isIgnoredHeader(val){
-    var n = norm(val);
-    for(var i=0;i<IGNORE_HEADERS.length;i++){
-        if(n === norm(IGNORE_HEADERS[i])) return true;
-    }
-    return false;
+    var n=norm(val);
+    for(var i=0;i<IGNORE_HEADERS.length;i++){if(n===norm(IGNORE_HEADERS[i]))return true;}return false;
 }
 
 async function handleUpload(e){
-    var f = e.target.files[0];
-    if(!f) return;
-    e.target.value = '';
-
-    if(stores.length === 0){
-        alert('No stores configured!\n\nConnect to Google Sheet first (click the sync indicator),\nor the sheet must have a Stores tab.');
-        return;
-    }
-    if(inv.length === 0){
-        alert('No categories configured!\n\nConnect to Google Sheet first, or upload will have nothing to match against.');
-        return;
-    }
-
+    var f=e.target.files[0];if(!f)return;e.target.value='';
+    if(stores.length===0){alert('No stores configured!\n\nConnect to Google Sheet first (click the sync indicator),\nor the sheet must have a Stores tab.');return;}
+    if(inv.length===0){alert('No categories configured!\n\nConnect to Google Sheet first, or upload will have nothing to match against.');return;}
     try{
-        var d = new Uint8Array(await f.arrayBuffer());
-        var wb = new ExcelJS.Workbook();
-        await wb.xlsx.load(d);
+        var d=new Uint8Array(await f.arrayBuffer());var wb=new ExcelJS.Workbook();await wb.xlsx.load(d);
+        var ws=wb.worksheets[0];if(!ws)return alert("No worksheet found in file.");
 
-        /* Try first worksheet, or find one that looks like inventory */
-        var ws = wb.worksheets[0];
-        if(!ws) return alert("No worksheet found in file.");
+        var headerRow=ws.getRow(1),storeMap=[],unmatchedHdrs=[],catCol=-1,mrpCol=-1,maxColFound=0;
 
-        /* ===== PHASE 1: Scan header row to build store mapping ===== */
-        var headerRow = ws.getRow(1);
-        var storeMap = [];      /* {excelCol, storeIdx, storeName} */
-        var unmatchedHdrs = [];  /* headers that didn't match any store */
-        var catCol = -1;         /* which column has "CATEGORY" header */
-        var mrpCol = -1;         /* which column has "MRP" header */
-        var maxColFound = 0;
-
-        headerRow.eachCell({includeEmpty: false}, function(cell, col){
-            if(col > maxColFound) maxColFound = col;
-            var val = getCV(cell);
-            if(val === null) return;
-            var upper = String(val).toUpperCase().trim();
-
-            /* Detect category column */
-            if(catCol < 0 && (upper === 'CATEGORY' || upper === 'CATEGORIES' || upper === 'ITEM' || upper === 'PRODUCT' || upper === 'NAME')){
-                catCol = col; return;
-            }
-            /* Detect MRP column */
-            if(mrpCol < 0 && (upper === 'MRP' || upper === 'MRP/SIZE' || upper === 'MRP SIZE' || upper === 'SIZE' || upper === 'SIZES')){
-                mrpCol = col; return;
-            }
-            /* Skip known non-store headers */
-            if(isIgnoredHeader(upper)) return;
-
-            /* Try to match this header as a store name */
-            var foundIdx = -1;
-
-            /* 1) Exact normalized match */
-            var normHdr = norm(upper);
-            for(var si=0; si<stores.length; si++){
-                if(norm(stores[si]) === normHdr){ foundIdx=si; break; }
-            }
-
-            /* 2) Contains match (header contains store name or vice versa) */
-            if(foundIdx === -1){
-                for(var si=0; si<stores.length; si++){
-                    var ns = norm(stores[si]);
-                    if(ns.length >= 2 && (normHdr.indexOf(ns) >= 0 || ns.indexOf(normHdr) >= 0)){
-                        foundIdx=si; break;
-                    }
-                }
-            }
-
-            if(foundIdx >= 0){
-                /* Check for duplicate store mapping */
-                var dup = false;
-                for(var k=0;k<storeMap.length;k++){
-                    if(storeMap[k].storeIdx === foundIdx){ dup=true; break; }
-                }
-                if(!dup) storeMap.push({excelCol:col, storeIdx:foundIdx, storeName:stores[foundIdx]});
-            }else{
-                unmatchedHdrs.push(String(val).trim());
-            }
+        headerRow.eachCell({includeEmpty:false},function(cell,col){
+            if(col>maxColFound)maxColFound=col;
+            var val=getCV(cell);if(val===null)return;
+            var upper=String(val).toUpperCase().trim();
+            if(catCol<0&&(upper==='CATEGORY'||upper==='CATEGORIES'||upper==='ITEM'||upper==='PRODUCT'||upper==='NAME')){catCol=col;return;}
+            if(mrpCol<0&&(upper==='MRP'||upper==='MRP/SIZE'||upper==='MRP SIZE'||upper==='SIZE'||upper==='SIZES')){mrpCol=col;return;}
+            if(isIgnoredHeader(upper))return;
+            var foundIdx=-1,normHdr=norm(upper);
+            for(var si=0;si<stores.length;si++){if(norm(stores[si])===normHdr){foundIdx=si;break;}}
+            if(foundIdx===-1){for(var si=0;si<stores.length;si++){var ns=norm(stores[si]);if(ns.length>=2&&(normHdr.indexOf(ns)>=0||ns.indexOf(normHdr)>=0)){foundIdx=si;break;}}}
+            if(foundIdx>=0){var dup=false;for(var k=0;k<storeMap.length;k++){if(storeMap[k].storeIdx===foundIdx){dup=true;break;}}
+                if(!dup)storeMap.push({excelCol:col,storeIdx:foundIdx,storeName:stores[foundIdx],headerFound:String(val).trim()});
+            }else{unmatchedHdrs.push(String(val).trim());}
         });
 
-        /* If category/MRP columns not detected, assume standard layout: A=Category, B=MRP */
-        if(catCol < 0) catCol = 1;
-        if(mrpCol < 0) mrpCol = 2;
+        if(catCol<0)catCol=1;if(mrpCol<0)mrpCol=2;
 
-        /* Fallback: if NO stores matched by name, try positional matching from column C onwards */
-        if(storeMap.length === 0){
-            dbg('No name matches - trying positional from col 3...');
-            var posStart = Math.max(catCol, mrpCol) + 1;
-            for(var si=0; si<stores.length; si++){
-                var tryCol = posStart + si;
-                if(tryCol <= maxColFound + 5){
-                    storeMap.push({excelCol:tryCol, storeIdx:si, storeName:stores[si]});
-                }
-            }
+        if(storeMap.length===0){
+            dbg('No name matches - trying positional from col '+(Math.max(catCol,mrpCol)+1));
+            var posStart=Math.max(catCol,mrpCol)+1;
+            for(var si=0;si<stores.length;si++){var tryCol=posStart+si;if(tryCol<=maxColFound+5)storeMap.push({excelCol:tryCol,storeIdx:si,storeName:stores[si],headerFound:'(positional)'});}
         }
 
-        if(storeMap.length === 0){
-            var msg = "No store columns could be identified!\n\n";
-            msg += "File headers found: " + unmatchedHdrs.join(', ') + "\n\n";
-            msg += "Expected store names:\n" + stores.join('\n') + "\n\n";
-            msg += "Expected format:\n  Col A = Category\n  Col B = MRP/Size\n  Col C onwards = Store names (must match exactly)";
-            return alert(msg);
-        }
+        if(storeMap.length===0){var msg="No store columns could be identified!\n\nFile headers found: "+unmatchedHdrs.join(', ')+"\n\nExpected store names:\n"+stores.join('\n')+"\n\nExpected format:\n  Col A = Category\n  Col B = MRP/Size\n  Col C onwards = Store names";return alert(msg);}
 
-        /* ===== PHASE 2: Pre-scan data rows to count matches ===== */
-        var dataRows = [];  /* {rowNum, catRaw, mrpRaw, catNorm, mrpNorm, cells:{storeIdx: value}} */
-        var skipLog = [];
-        var totalDataRows = 0;
-
-        var rowCount = ws.rowCount;
-        for(var rn=2; rn<=rowCount; rn++){
-            var row = ws.getRow(rn);
-            if(!row) continue;
-            var hasAnyContent = false;
-            row.eachCell({includeEmpty:false},function(){hasAnyContent=true;});
-            if(!hasAnyContent) continue;
-
+        var dataRows=[],skipLog=[],totalDataRows=0,rowCount=ws.rowCount;
+        for(var rn=2;rn<=rowCount;rn++){
+            var row=ws.getRow(rn);if(!row)continue;
+            var hasAny=false;row.eachCell({includeEmpty:false},function(){hasAny=true;});if(!hasAny)continue;
             totalDataRows++;
-            var catRaw = getCV(row.getCell(catCol));
-            var mrpRaw = getCV(row.getCell(mrpCol));
-
-            if(catRaw === null) continue;
-            var cn = String(catRaw).trim();
-            if(!cn) continue;
-            var catNorm = norm(cn);
-
-            /* Skip total/summary rows */
-            if(catNorm === 'TOTAL' || catNorm === 'GRANDTOTAL') continue;
-
-            var mnRaw = (mrpRaw !== null) ? String(mrpRaw).trim() : '';
-            var mrpNorm = norm(mnRaw);
-            if(mrpNorm === 'TOTAL' || mnRaw === '-' || mnRaw === '\u2014' || mrpNorm === 'NA' || mrpNorm === 'N/A' || mrpNorm === '') mnRaw = '';
-
-            /* Find category */
-            var catIdx = -1;
-            for(var x=0;x<inv.length;x++){
-                if(norm(inv[x].name) === catNorm){catIdx=x; break;}
-            }
-            if(catIdx === -1){
-                skipLog.push('R'+rn+': Category "'+cn+'" not found');
-                continue;
-            }
-
-            var cat = inv[catIdx];
-
-            /* If MRP given, verify it exists */
-            var mrpIdx = -1;
-            if(mnRaw !== '' && cat.mrpDetails.length > 0){
-                for(var y=0;y<cat.mrpDetails.length;y++){
-                    if(norm(cat.mrpDetails[y].range) === mrpNorm){mrpIdx=y; break;}
-                }
-                if(mrpIdx === -1){
-                    skipLog.push('R'+rn+': MRP "'+mnRaw+'" not in '+cn);
-                    continue;
-                }
-            }
-
-            /* Read cell values for each matched store column */
-            var cells = {};
-            for(var sm=0;sm<storeMap.length;sm++){
-                var val = getCV(row.getCell(storeMap[sm].excelCol));
-                cells[storeMap[sm].storeIdx] = val;
-            }
-
-            dataRows.push({
-                rowNum: rn,
-                catRaw: cn,
-                mrpRaw: mnRaw || '(no MRP)',
-                catIdx: catIdx,
-                mrpIdx: mrpIdx,
-                cells: cells
-            });
+            var catRaw=getCV(row.getCell(catCol)),mrpRaw=getCV(row.getCell(mrpCol));
+            if(catRaw===null)continue;var cn=String(catRaw).trim();if(!cn)continue;
+            var catNorm=norm(cn);if(catNorm==='TOTAL'||catNorm==='GRANDTOTAL')continue;
+            var mnRaw=(mrpRaw!==null)?String(mrpRaw).trim():'';var mrpNorm=norm(mnRaw);
+            if(mrpNorm==='TOTAL'||mnRaw==='-'||mnRaw==='\u2014'||mrpNorm==='NA'||mrpNorm==='N/A'||mrpNorm==='')mnRaw='';
+            var catIdx=-1;for(var x=0;x<inv.length;x++){if(norm(inv[x].name)===catNorm){catIdx=x;break;}}
+            if(catIdx===-1){skipLog.push('R'+rn+': "'+cn+'" not found');continue;}
+            var cat=inv[catIdx],mrpIdx=-1;
+            if(mnRaw!==''&&cat.mrpDetails.length>0){for(var y=0;y<cat.mrpDetails.length;y++){if(norm(cat.mrpDetails[y].range)===mrpNorm){mrpIdx=y;break;}}if(mrpIdx===-1){skipLog.push('R'+rn+': MRP "'+mnRaw+'" not in '+cn);continue;}}
+            var cells={};for(var sm=0;sm<storeMap.length;sm++){cells[storeMap[sm].storeIdx]=getCV(row.getCell(storeMap[sm].excelCol));}
+            dataRows.push({rowNum:rn,catRaw:cn,mrpRaw:mnRaw||'(no MRP)',catIdx:catIdx,mrpIdx:mrpIdx,cells:cells});
         }
 
-        /* ===== PHASE 3: Show preview modal ===== */
-        var missingStores = [];
-        for(var si=0;si<stores.length;si++){
-            var found = false;
-            for(var k=0;k<storeMap.length;k++){
-                if(storeMap[k].storeIdx===si){found=true;break;}
-            }
-            if(!found) missingStores.push(stores[si]);
-        }
+        var missingStores=[];
+        for(var si=0;si<stores.length;si++){var found=false;for(var k=0;k<storeMap.length;k++){if(storeMap[k].storeIdx===si){found=true;break;}}if(!found)missingStores.push(stores[si]);}
+        pendingUpload={storeMap:storeMap,dataRows:dataRows};
 
-        pendingUpload = {storeMap:storeMap, dataRows:dataRows};
+        var html='';
+        html+='<div style="margin-bottom:14px"><p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Store Column Mapping ('+storeMap.length+'/'+stores.length+' matched)</p>';
+        html+='<div class="up-preview"><table><thead><tr><th>Excel Col</th><th>Header Found</th><th>&rarr;</th><th>Internal Store</th><th>Status</th></tr></thead><tbody>';
+        for(var k=0;k<storeMap.length;k++){var m=storeMap[k];html+='<tr><td class="mono">'+String.fromCharCode(64+m.excelCol)+'</td><td>'+(m.headerFound||'positional')+'</td><td>&rarr;</td><td class="match">'+m.storeName+'</td><td class="match">MATCH</td></tr>';}
+        for(var i=0;i<missingStores.length;i++){html+='<tr><td>-</td><td>-</td><td>&rarr;</td><td>'+missingStores[i]+'</td><td class="nomatch">NO COLUMN</td></tr>';}
+        if(unmatchedHdrs.length>0){html+='<tr><td colspan="5" style="font-style:italic;color:var(--muted);font-size:9px">Ignored: '+unmatchedHdrs.join(', ')+'</td></tr>';}
+        html+='</tbody></table></div></div>';
 
-        var html = '';
+        html+='<div style="margin-bottom:14px"><p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Data Rows Preview ('+dataRows.length+' valid of '+totalDataRows+' scanned)</p>';
+        html+='<div class="up-preview"><table><thead><tr><th>Row</th><th>Category</th><th>MRP/Size</th>';
+        for(var k=0;k<storeMap.length;k++){html+='<th>'+storeMap[k].storeName+'</th>';}
+        html+='</tr></thead><tbody>';
+        var showMax=Math.min(dataRows.length,60);
+        for(var i=0;i<showMax;i++){var dr=dataRows[i];html+='<tr><td class="mono" style="color:var(--muted)">R'+dr.rowNum+'</td><td style="font-weight:600">'+dr.catRaw+'</td><td><span class="bg bi">'+dr.mrpRaw+'</span></td>';
+            for(var k=0;k<storeMap.length;k++){var val=dr.cells[storeMap[k].storeIdx];var display=(val!==null&&val!==undefined)?pN(val):'0';html+='<td class="mono" style="font-weight:700">'+display+'</td>';}html+='</tr>';}
+        if(dataRows.length>showMax){html+='<tr><td colspan="'+(3+storeMap.length)+'" style="text-align:center;color:var(--muted);font-style:italic">... and '+(dataRows.length-showMax)+' more rows</td></tr>';}
+        html+='</tbody></table></div></div>';
 
-        /* Store mapping table */
-        html += '<div style="margin-bottom:16px">';
-        html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Store Column Mapping ('+storeMap.length+'/'+stores.length+' matched)</p>';
-        html += '<div class="up-preview"><table><thead><tr><th>Excel Col</th><th>Header Found</th><th>&rarr;</th><th>Internal Store</th><th>Status</th></tr></thead><tbody>';
-        for(var k=0;k<storeMap.length;k++){
-            var m = storeMap[k];
-            html += '<tr><td class="mono">'+String.fromCharCode(64+m.excelCol)+'</td><td>'+(m.headerFound||'positional')+'</td><td>&rarr;</td><td class="match">'+m.storeName+'</td><td class="match">MATCH</td></tr>';
-        }
-        for(var i=0;i<missingStores.length;i++){
-            html += '<tr><td>-</td><td>-</td><td>&rarr;</td><td>'+missingStores[i]+'</td><td class="nomatch">NO COLUMN</td></tr>';
-        }
-        if(unmatchedHdrs.length>0){
-            html += '<tr><td colspan="5" style="font-style:italic;color:var(--muted);font-size:9px">Ignored columns: '+unmatchedHdrs.join(', ')+'</td></tr>';
-        }
-        html += '</tbody></table></div></div>';
+        if(skipLog.length>0){html+='<div style="margin-bottom:8px"><p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--danger)">Skipped Rows ('+skipLog.length+')</p><div style="max-height:70px;overflow:auto;font-size:10px;color:var(--muted);line-height:1.6">';var showSkip=Math.min(skipLog.length,12);for(var i=0;i<showSkip;i++)html+=skipLog[i]+'<br>';if(skipLog.length>showSkip)html+='... and '+(skipLog.length-showSkip)+' more';html+='</div></div>';}
 
-        /* Data rows preview */
-        html += '<div style="margin-bottom:16px">';
-        html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Data Rows Preview ('+dataRows.length+' valid of '+totalDataRows+' scanned)</p>';
-        html += '<div class="up-preview"><table><thead><tr><th>Row</th><th>Category</th><th>MRP/Size</th>';
-        for(var k=0;k<storeMap.length;k++){
-            html += '<th>'+storeMap[k].storeName+'</th>';
-        }
-        html += '</tr></thead><tbody>';
+        html+='<div style="background:var(--bg);border-radius:10px;padding:12px;display:flex;gap:20px;flex-wrap:wrap">';
+        html+='<div><span class="fc-l" style="color:var(--muted)">Valid Rows</span><div class="fc-v" style="color:var(--accent)">'+dataRows.length+'</div></div>';
+        html+='<div><span class="fc-l" style="color:var(--muted)">Stores Matched</span><div class="fc-v" style="color:var(--info)">'+storeMap.length+'/'+stores.length+'</div></div>';
+        html+='<div><span class="fc-l" style="color:var(--muted)">Skipped</span><div class="fc-v" style="color:var(--danger)">'+skipLog.length+'</div></div></div>';
 
-        var showMax = Math.min(dataRows.length, 50);
-        for(var i=0;i<showMax;i++){
-            var dr = dataRows[i];
-            html += '<tr><td class="mono" style="color:var(--muted)">R'+dr.rowNum+'</td>';
-            html += '<td style="font-weight:600">'+dr.catRaw+'</td>';
-            html += '<td><span class="bg bi">'+dr.mrpRaw+'</span></td>';
-            for(var k=0;k<storeMap.length;k++){
-                var val = dr.cells[storeMap[k].storeIdx];
-                var display = (val !== null && val !== undefined) ? pN(val) : '0';
-                html += '<td class="mono" style="font-weight:700">'+display+'</td>';
-            }
-            html += '</tr>';
-        }
-        if(dataRows.length > showMax){
-            html += '<tr><td colspan="'+(3+storeMap.length)+'" style="text-align:center;color:var(--muted);font-style:italic">... and '+(dataRows.length-showMax)+' more rows</td></tr>';
-        }
-        html += '</tbody></table></div></div>';
-
-        /* Skip log */
-        if(skipLog.length > 0){
-            html += '<div style="margin-bottom:8px">';
-            html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--danger)">Skipped Rows ('+skipLog.length+')</p>';
-            html += '<div style="max-height:80px;overflow:auto;font-size:10px;color:var(--muted);line-height:1.6">';
-            var showSkip = Math.min(skipLog.length, 15);
-            for(var i=0;i<showSkip;i++) html += skipLog[i]+'<br>';
-            if(skipLog.length > showSkip) html += '... and '+(skipLog.length-showSkip)+' more';
-            html += '</div></div>';
-        }
-
-        /* Summary */
-        html += '<div style="background:var(--bg);border-radius:10px;padding:12px;display:flex;gap:20px;flex-wrap:wrap">';
-        html += '<div><span class="fc-l" style="color:var(--muted)">Valid Rows</span><div class="fc-v" style="color:var(--accent)">'+dataRows.length+'</div></div>';
-        html += '<div><span class="fc-l" style="color:var(--muted)">Stores Matched</span><div class="fc-v" style="color:var(--info)">'+storeMap.length+'/'+stores.length+'</div></div>';
-        html += '<div><span class="fc-l" style="color:var(--muted)">Skipped</span><div class="fc-v" style="color:var(--danger)">'+skipLog.length+'</div></div>';
-        html += '</div>';
-
-        document.getElementById('upPreviewBody').innerHTML = html;
+        document.getElementById('upPreviewBody').innerHTML=html;
         document.getElementById('upPreviewM').classList.remove('hd');
-
         dbg('Upload preview: '+dataRows.length+' valid, '+skipLog.length+' skipped, '+storeMap.length+'/'+stores.length+' stores');
-
-    }catch(err){
-        alert("Upload Error: "+err.message);
-        dbg('Upload error: '+err.message+'\n'+(err.stack||''));
-    }
+    }catch(err){alert("Upload Error: "+err.message);dbg('Upload error: '+err.message+'\n'+(err.stack||''));}
 }
 
-/* Apply the pending upload */
 function applyUpload(){
-    if(!pendingUpload) return;
-    var storeMap = pendingUpload.storeMap;
-    var dataRows = pendingUpload.dataRows;
-    var updated = 0;
-
-    for(var i=0;i<dataRows.length;i++){
-        var dr = dataRows[i];
-        var cat = inv[dr.catIdx];
-
-        if(dr.mrpIdx >= 0){
-            /* Update specific MRP row */
-            for(var k=0;k<storeMap.length;k++){
-                var val = dr.cells[storeMap[k].storeIdx];
-                cat.mrpDetails[dr.mrpIdx].present[storeMap[k].storeIdx] = pN(val);
-            }
-        }else{
-            /* Update category-level stock (no MRP details) */
-            for(var k=0;k<storeMap.length;k++){
-                var val = dr.cells[storeMap[k].storeIdx];
-                cat.present[storeMap[k].storeIdx] = pN(val);
-            }
-        }
+    if(!pendingUpload)return;
+    var storeMap=pendingUpload.storeMap,dataRows=pendingUpload.dataRows,updated=0;
+    for(var i=0;i<dataRows.length;i++){var dr=dataRows[i],cat=inv[dr.catIdx];
+        if(dr.mrpIdx>=0){for(var k=0;k<storeMap.length;k++){cat.mrpDetails[dr.mrpIdx].present[storeMap[k].storeIdx]=pN(dr.cells[storeMap[k].storeIdx]);}}
+        else{for(var k=0;k<storeMap.length;k++){cat.present[storeMap[k].storeIdx]=pN(dr.cells[storeMap[k].storeIdx]);}}
         updated++;
     }
-
-    enforceDI();
-    saveData();
-    render();
-
-    pendingUpload = null;
-    document.getElementById('upPreviewM').classList.add('hd');
-    showToast(updated + ' stock values updated across ' + storeMap.length + ' stores');
-    dbg('Applied: '+updated+' rows updated');
+    enforceDI();saveData();render();pendingUpload=null;document.getElementById('upPreviewM').classList.add('hd');
+    showToast(updated+' stock values updated across '+storeMap.length+' stores');dbg('Applied: '+updated+' rows');
 }
 
-function cancelUpload(){
-    pendingUpload = null;
-    document.getElementById('upPreviewM').classList.add('hd');
-}
+function cancelUpload(){pendingUpload=null;document.getElementById('upPreviewM').classList.add('hd');}
 
-/* ===== TRANSFER LOGIC ===== */
+/* ===== TRANSFER ===== */
 function calcTF(){
     var all=[];
-    for(var c=0;c<inv.length;c++){
-        var cat=inv[c];
-        (function(cn,ml,bt,pr){
-            var su=[],sh=[];
-            for(var i=0;i<stores.length;i++){var g=(pr[i]||0)-(bt[i]||0);if(g>0)su.push({s:stores[i],q:g});else if(g<0)sh.push({s:stores[i],q:Math.abs(g)});}
-            su.sort(function(a,b){return b.q-a.q;});sh.sort(function(a,b){return b.q-a.q;});
-            for(var si=0;si<sh.length;si++){var need=sh[si].q;for(var pi=0;pi<su.length&&need>0;pi++){if(su[pi].q<=0)continue;var mv=Math.min(need,su[pi].q);if(mv>0){all.push({cat:cn,mrp:ml,from:su[pi].s,to:sh[si].s,qty:mv});need-=mv;su[pi].q-=mv;}}}
+    for(var c=0;c<inv.length;c++){var cat=inv[c];
+        (function(cn,ml,bt,pr){var su=[],sh=[];for(var i=0;i<stores.length;i++){var g=(pr[i]||0)-(bt[i]||0);if(g>0)su.push({s:stores[i],q:g});else if(g<0)sh.push({s:stores[i],q:Math.abs(g)});}su.sort(function(a,b){return b.q-a.q;});sh.sort(function(a,b){return b.q-a.q;});for(var si=0;si<sh.length;si++){var need=sh[si].q;for(var pi=0;pi<su.length&&need>0;pi++){if(su[pi].q<=0)continue;var mv=Math.min(need,su[pi].q);if(mv>0){all.push({cat:cn,mrp:ml,from:su[pi].s,to:sh[si].s,qty:mv});need-=mv;su[pi].q-=mv;}}}
         })(cat.name,cat.mrpDetails.length>0?null:'TOTAL',cat.base,cat.present);
-        if(cat.mrpDetails.length>0){
-            for(var m=0;m<cat.mrpDetails.length;m++){
-                (function(cn2,ml2,bt2,pr2){
-                    var su2=[],sh2=[];
-                    for(var i2=0;i2<stores.length;i2++){var g2=(pr2[i2]||0)-(bt2[i2]||0);if(g2>0)su2.push({s:stores[i2],q:g2});else if(g2<0)sh2.push({s:stores[i2],q:Math.abs(g2)});}
-                    su2.sort(function(a,b){return b.q-a.q;});sh2.sort(function(a,b){return b.q-a.q;});
-                    for(var si2=0;si2<sh2.length;si2++){var need2=sh2[si2].q;for(var pi2=0;pi2<su2.length&&need2>0;pi2++){if(su2[pi2].q<=0)continue;var mv2=Math.min(need2,su2[pi2].q);if(mv2>0){all.push({cat:cn2,mrp:ml2,from:su2[pi2].s,to:sh2[si2].s,qty:mv2});need2-=mv2;su2[pi2].q-=mv2;}}}
-                })(cat.name,cat.mrpDetails[m].range,cat.mrpDetails[m].base,cat.mrpDetails[m].present);
-            }
-        }
-    }
-    return all;
+        if(cat.mrpDetails.length>0){for(var m=0;m<cat.mrpDetails.length;m++){
+            (function(cn2,ml2,bt2,pr2){var su2=[],sh2=[];for(var i2=0;i2<stores.length;i2++){var g2=(pr2[i2]||0)-(bt2[i2]||0);if(g2>0)su2.push({s:stores[i2],q:g2});else if(g2<0)sh2.push({s:stores[i2],q:Math.abs(g2)});}su2.sort(function(a,b){return b.q-a.q;});sh2.sort(function(a,b){return b.q-a.q;});for(var si2=0;si2<sh2.length;si2++){var need2=sh2[si2].q;for(var pi2=0;pi2<su2.length&&need2>0;pi2++){if(su2[pi2].q<=0)continue;var mv2=Math.min(need2,su2[pi2].q);if(mv2>0){all.push({cat:cn2,mrp:ml2,from:su2[pi2].s,to:sh2[si2].s,qty:mv2});need2-=mv2;su2[pi2].q-=mv2;}}}
+            })(cat.name,cat.mrpDetails[m].range,cat.mrpDetails[m].base,cat.mrpDetails[m].present);
+        }}
+    }return all;
 }
 
 function buildTF(){
@@ -893,57 +621,36 @@ function closeTFR(){document.getElementById('tfV').classList.add('hd');document.
 
 function renderTF(){
     var d=buildTF(),ns=stores.length,trs=d.tr;
-    document.getElementById('tfT').textContent=d.tq.toLocaleString();
-    document.getElementById('tfS').textContent=d.tq.toLocaleString();
-    document.getElementById('tfR').textContent=d.rc;
-    document.getElementById('tfC').textContent=d.cc;
+    document.getElementById('tfT').textContent=d.tq.toLocaleString();document.getElementById('tfS').textContent=d.tq.toLocaleString();
+    document.getElementById('tfR').textContent=d.rc;document.getElementById('tfC').textContent=d.cc;
     var sd={};for(var i=0;i<ns;i++)sd[stores[i]]={out:0,inc:0};
     for(var i=0;i<trs.length;i++){sd[trs[i].from].out+=trs[i].qty;sd[trs[i].to].inc+=trs[i].qty;}
     var sh='';
-    for(var i=0;i<ns;i++){
-        var s=stores[i],x=sd[s],net=x.inc-x.out,bc=net>0?'var(--info)':(net<0?'var(--danger)':'var(--border)'),nc=net>0?'+'+net:(net<0?''+net:'0'),ncl=net>0?'var(--info)':(net<0?'var(--danger)':'var(--muted)'),role=net>0?'RECV':(net<0?'SEND':'BAL'),rbg=net>0?'bi':(net<0?'bd':'bw');
-        sh+='<div class="fc" style="border-left:4px solid '+bc+'"><div class="flex justify-between items-center mb-2"><span class="fc-n">'+s+'</span><span class="bg '+rbg+'" style="font-size:8px">'+role+'</span></div><div class="grid grid-cols-3 gap-1 text-center"><div><div class="fc-l" style="color:var(--danger)">OUT</div><div class="fc-v mono" style="color:var(--danger);font-size:13px">'+x.out+'</div></div><div><div class="fc-l" style="color:var(--info)">IN</div><div class="fc-v mono" style="color:var(--info);font-size:13px">'+x.inc+'</div></div><div><div class="fc-l" style="color:var(--muted)">NET</div><div class="fc-v mono" style="color:'+ncl+';font-size:13px">'+nc+'</div></div></div></div>';
-    }
+    for(var i=0;i<ns;i++){var s=stores[i],x=sd[s],net=x.inc-x.out,bc=net>0?'var(--info)':(net<0?'var(--danger)':'var(--border)'),nc=net>0?'+'+net:(net<0?''+net:'0'),ncl=net>0?'var(--info)':(net<0?'var(--danger)':'var(--muted)'),role=net>0?'RECV':(net<0?'SEND':'BAL'),rbg=net>0?'bi':(net<0?'bd':'bw');
+        sh+='<div class="fc" style="border-left:4px solid '+bc+'"><div class="flex justify-between items-center mb-2"><span class="fc-n">'+s+'</span><span class="bg '+rbg+'" style="font-size:8px">'+role+'</span></div><div class="grid grid-cols-3 gap-1 text-center"><div><div class="fc-l" style="color:var(--danger)">OUT</div><div class="fc-v mono" style="color:var(--danger);font-size:13px">'+x.out+'</div></div><div><div class="fc-l" style="color:var(--info)">IN</div><div class="fc-v mono" style="color:var(--info);font-size:13px">'+x.inc+'</div></div><div><div class="fc-l" style="color:var(--muted)">NET</div><div class="fc-v mono" style="color:'+ncl+';font-size:13px">'+nc+'</div></div></div></div>';}
     document.getElementById('tfSum').innerHTML=sh;
-    var rm={};
-    for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
+    var rm={};for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
     var routes=[];for(var k in rm){var tot=0;for(var j=0;j<rm[k].items.length;j++)tot+=rm[k].items[j].qty;routes.push({from:rm[k].from,to:rm[k].to,items:rm[k].items,total:tot});}
     routes.sort(function(a,b){return b.total-a.total;});
     document.getElementById('tfH').innerHTML='<tr><th style="width:150px;text-align:left;padding-left:18px">FROM</th><th style="width:30px"></th><th style="width:150px">TO</th><th style="text-align:left;padding-left:14px;min-width:200px">CATEGORY</th><th style="width:130px">MRP</th><th style="width:90px">QTY</th></tr>';
     var bh='';
     if(routes.length===0){bh='<tr><td colspan="6" style="text-align:center;padding:50px 18px;border:none;background:transparent"><p style="font-size:18px;font-weight:800;color:var(--accent)">NO TRANSFERS REQUIRED</p></td></tr>';}
-    else{
-        for(var ri=0;ri<routes.length;ri++){
-            var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});
-            bh+='<tr class="rsep"><td colspan="6" style="display:flex;justify-content:space-between;align-items:center"><span>'+rt.from+' <span class="ra" style="margin:0 6px">\u2192</span> '+rt.to+'</span><span style="font-size:11px;font-weight:600;color:var(--muted)">'+rt.total.toLocaleString()+' items \u00b7 '+rt.items.length+' cat'+(rt.items.length>1?'s':'')+'</span></td></tr>';
-            for(var ii=0;ii<rt.items.length;ii++){
-                var it=rt.items[ii],f=(ii===0);
-                bh+='<tr><td style="text-align:left;padding-left:18px;'+(f?'font-weight:700;color:var(--danger)':'color:var(--muted);font-size:10px')+'">'+(f?rt.from:'')+'</td><td>'+(f?'<span class="ra">\u2192</span>':'')+'</td><td style="'+(f?'font-weight:700;color:var(--info)':'color:var(--muted);font-size:10px')+'">'+(f?rt.to:'')+'</td><td style="text-align:left;padding-left:14px;font-size:11px;font-weight:600">'+it.cat+'</td><td><span class="bg bi">'+it.mrp+'</span></td><td><span class="tfi">'+it.qty+'</span></td></tr>';
-            }
-            bh+='<tr class="rsub"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:700;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Route Total</td><td><span class="tft">'+rt.total+'</span></td></tr>';
-        }
-        bh+='<tr class="rgrand"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:900;font-size:13px;color:var(--info)">GRAND TOTAL</td><td><span class="tft" style="font-size:17px;border:2px solid var(--info)">'+d.tq+'</span></td></tr>';
-    }
+    else{for(var ri=0;ri<routes.length;ri++){var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});
+        bh+='<tr class="rsep"><td colspan="6" style="display:flex;justify-content:space-between;align-items:center"><span>'+rt.from+' <span class="ra" style="margin:0 6px">\u2192</span> '+rt.to+'</span><span style="font-size:11px;font-weight:600;color:var(--muted)">'+rt.total.toLocaleString()+' items \u00b7 '+rt.items.length+' cat'+(rt.items.length>1?'s':'')+'</span></td></tr>';
+        for(var ii=0;ii<rt.items.length;ii++){var it=rt.items[ii],f=(ii===0);bh+='<tr><td style="text-align:left;padding-left:18px;'+(f?'font-weight:700;color:var(--danger)':'color:var(--muted);font-size:10px')+'">'+(f?rt.from:'')+'</td><td>'+(f?'<span class="ra">\u2192</span>':'')+'</td><td style="'+(f?'font-weight:700;color:var(--info)':'color:var(--muted);font-size:10px')+'">'+(f?rt.to:'')+'</td><td style="text-align:left;padding-left:14px;font-size:11px;font-weight:600">'+it.cat+'</td><td><span class="bg bi">'+it.mrp+'</span></td><td><span class="tfi">'+it.qty+'</span></td></tr>';}
+        bh+='<tr class="rsub"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:700;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Route Total</td><td><span class="tft">'+rt.total+'</span></td></tr>';}
+    bh+='<tr class="rgrand"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:900;font-size:13px;color:var(--info)">GRAND TOTAL</td><td><span class="tft" style="font-size:17px;border:2px solid var(--info)">'+d.tq+'</span></td></tr>';}
     document.getElementById('tfB').innerHTML=bh;
 }
 
-/* ===== PURCHASE LOGIC ===== */
+/* ===== PURCHASE ===== */
 function getSimPurch(){
     var si=JSON.parse(JSON.stringify(inv));var tr=calcTF();
-    for(var t=0;t<tr.length;t++){
-        var trn=tr[t];var c=null;
-        for(var x=0;x<si.length;x++){if(si[x].name===trn.cat){c=si[x];break;}}
-        if(!c) continue;
-        var fi=stores.indexOf(trn.from),ti=stores.indexOf(trn.to);
-        if(fi<0||ti<0) continue;
-        if(c.mrpDetails.length>0){
-            var m=null;for(var y=0;y<c.mrpDetails.length;y++){if(c.mrpDetails[y].range===trn.mrp){m=c.mrpDetails[y];break;}}
-            if(m){m.present[fi]=Math.max(0,(m.present[fi]||0)-trn.qty);m.present[ti]=(m.present[ti]||0)+trn.qty;}
-        }else{c.present[fi]=Math.max(0,(c.present[fi]||0)-trn.qty);c.present[ti]=(c.present[ti]||0)+trn.qty;}
-    }
-    si.forEach(function(c){
-        if(c.mrpDetails.length>0){c.base.fill(0);c.present.fill(0);c.mrpDetails.forEach(function(m){m.base.forEach(function(v,i){c.base[i]+=v||0;});m.present.forEach(function(v,i){c.present[i]+=v||0;});});}
-    });
+    for(var t=0;t<tr.length;t++){var trn=tr[t],c=null;for(var x=0;x<si.length;x++){if(si[x].name===trn.cat){c=si[x];break;}}if(!c)continue;
+        var fi=stores.indexOf(trn.from),ti=stores.indexOf(trn.to);if(fi<0||ti<0)continue;
+        if(c.mrpDetails.length>0){var m=null;for(var y=0;y<c.mrpDetails.length;y++){if(c.mrpDetails[y].range===trn.mrp){m=c.mrpDetails[y];break;}}if(m){m.present[fi]=Math.max(0,(m.present[fi]||0)-trn.qty);m.present[ti]=(m.present[ti]||0)+trn.qty;}}
+        else{c.present[fi]=Math.max(0,(c.present[fi]||0)-trn.qty);c.present[ti]=(c.present[ti]||0)+trn.qty;}}
+    si.forEach(function(c){if(c.mrpDetails.length>0){c.base.fill(0);c.present.fill(0);c.mrpDetails.forEach(function(m){m.base.forEach(function(v,i){c.base[i]+=v||0;});m.present.forEach(function(v,i){c.present[i]+=v||0;});});}});
     return si;
 }
 
@@ -952,261 +659,108 @@ function closePUR(){document.getElementById('prV').classList.add('hd');document.
 
 function renderPUR(){
     var sd=getSimPurch(),trs=calcTF(),ttf=0;for(var t=0;t<trs.length;t++)ttf+=trs[t].qty;
-    var ns=stores.length;
-    var hh='<tr><th class="sk1 cc">CATEGORY</th><th class="sk2 cm">MRP</th>';
-    for(var s=0;s<ns;s++) hh+='<th class="cs">'+stores[s]+'</th>';
-    hh+='<th class="ska" style="min-width:100px">TOTAL</th></tr>';
-    document.getElementById('prH').innerHTML=hh;
+    var ns=stores.length,hh='<tr><th class="sk1 cc">CATEGORY</th><th class="sk2 cm">MRP</th>';
+    for(var s=0;s<ns;s++)hh+='<th class="cs">'+stores[s]+'</th>';
+    hh+='<th class="ska" style="min-width:100px">TOTAL</th></tr>';document.getElementById('prH').innerHTML=hh;
     var bh='',gps=Array(ns).fill(0),gt=0,ct={},as={},cn2=0,any=false;
-    for(var c=0;c<inv.length;c++){
-        var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];
-        if(hm){for(var m=0;m<cat.mrpDetails.length;m++) ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}
+    for(var c=0;c<inv.length;c++){var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];
+        if(hm){for(var m=0;m<cat.mrpDetails.length;m++)ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}
         else ml.push({range:'TOTAL',base:cat.base,sp:sc.present});
         var cp=Array(ns).fill(0),ch=false;
-        for(var m=0;m<ml.length;m++){
-            var mr=ml[m],pv=[],rt=0,rhb=false;
-            for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}
-            if(hm&&!rhb) continue;
-            ch=true; any=true; var isT=!hm;
-            var row='<tr class="'+(isT?'trow':'')+'">';
-            if(isT){row+='<td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';}
+        for(var m=0;m<ml.length;m++){var mr=ml[m],pv=[],rt=0,rhb=false;for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}
+            if(hm&&!rhb)continue;ch=true;any=true;var isT=!hm;
+            var row='<tr class="'+(isT?'trow':'')+'">';if(isT){row+='<td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';}
             else{row+='<td class="sk1 cc" style="font-size:10px;color:var(--muted)">'+cat.name+'</td><td class="sk2 cm"><span class="bg bi">'+mr.range+'</span></td>';}
             for(var si=0;si<ns;si++){cp[si]+=pv[si];gps[si]+=pv[si];row+='<td class="cs">'+(pv[si]>0?'<span class="pv">'+pv[si]+'</span>':'<span class="zd">\u2014</span>')+'</td>';}
-            row+='<td class="ska">'+(rt>0?'<span class="'+(isT?'pt':'pv')+'">'+rt+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';
-            bh+=row;
-        }
-        if(hm&&ch){
-            var cT=0;
-            var ctr='<tr class="trow"><td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';
-            for(var si=0;si<ns;si++){cT+=cp[si];ctr+='<td class="cs">'+(cp[si]>0?'<span class="pv" style="font-size:12px">'+cp[si]+'</span>':'<span class="zd">\u2014</span>')+'</td>';}
-            ctr+='<td class="ska">'+(cT>0?'<span class="pt">'+cT+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';
-            bh+=ctr;
-            if(cT>0){ct[cat.name]=cT;cn2++;}
-        }else if(!hm&&ch){
-            var cT2=0;for(var si=0;si<ns;si++)cT2+=cp[si];
-            if(cT2>0){ct[cat.name]=cT2;cn2++;}
-        }
-        for(var si=0;si<ns;si++){if(cp[si]>0)as[stores[si]]=true;}
-    }
+            row+='<td class="ska">'+(rt>0?'<span class="'+(isT?'pt':'pv')+'">'+rt+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';bh+=row;}
+        if(hm&&ch){var cT=0,bh2='<tr class="trow"><td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';for(var si=0;si<ns;si++){cT+=cp[si];bh2+='<td class="cs">'+(cp[si]>0?'<span class="pv" style="font-size:12px">'+cp[si]+'</span>':'<span class="zd">\u2014</span>')+'</td>';}bh2+='<td class="ska">'+(cT>0?'<span class="pt">'+cT+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';bh+=bh2;if(cT>0){ct[cat.name]=cT;cn2++;}}
+        else if(!hm&&ch){var cT2=0;for(var si=0;si<ns;si++)cT2+=cp[si];if(cT2>0){ct[cat.name]=cT2;cn2++;}}
+        for(var si=0;si<ns;si++){if(cp[si]>0)as[stores[si]]=true;}}
     gt=0;for(var si=0;si<ns;si++)gt+=gps[si];
-    if(any){
-        bh+='<tr class="pgr"><td class="sk1 cc" style="font-size:13px">GRAND TOTAL</td><td class="sk2 cm"></td>';
-        for(var si=0;si<ns;si++) bh+='<td class="cs"><span class="pt" style="font-size:12px">'+gps[si]+'</span></td>';
-        bh+='<td class="ska"><span class="pt" style="font-size:15px;border:2px solid var(--danger)">'+gt+'</span></td></tr>';
-    }
+    if(any){bh+='<tr class="pgr"><td class="sk1 cc" style="font-size:13px">GRAND TOTAL</td><td class="sk2 cm"></td>';for(var si=0;si<ns;si++)bh+='<td class="cs"><span class="pt" style="font-size:12px">'+gps[si]+'</span></td>';bh+='<td class="ska"><span class="pt" style="font-size:15px;border:2px solid var(--danger)">'+gt+'</span></td></tr>';}
     if(!any){bh='<tr><td colspan="'+(3+ns)+'" style="text-align:center;padding:50px 18px;border:none;background:transparent"><p style="font-size:18px;font-weight:800;color:var(--accent)">NO PURCHASES REQUIRED</p><p style="font-size:12px;color:var(--muted);margin-top:10px">All targets met after transfers.</p></td></tr>';}
     document.getElementById('prB').innerHTML=bh;
-    document.getElementById('prT').textContent=gt.toLocaleString();
-    var asc=0;for(var k in as)asc++;
-    document.getElementById('prS').textContent=asc;
-    document.getElementById('prC').textContent=cn2;
-    document.getElementById('prX').textContent=ttf.toLocaleString();
-    document.getElementById('prBT').textContent=gt.toLocaleString();
-    document.getElementById('prBS').textContent=asc;
+    document.getElementById('prT').textContent=gt.toLocaleString();var asc=0;for(var k in as)asc++;
+    document.getElementById('prS').textContent=asc;document.getElementById('prC').textContent=cn2;document.getElementById('prX').textContent=ttf.toLocaleString();
+    document.getElementById('prBT').textContent=gt.toLocaleString();document.getElementById('prBS').textContent=asc;
     var sorted=[];for(var k in ct)sorted.push([k,ct[k]]);sorted.sort(function(a,b){return b[1]-a[1];});sorted=sorted.slice(0,5);
-    if(pChart) pChart.destroy();
-    if(sorted.length>0){
-        pChart=new Chart(document.getElementById('purC'),{type:'bar',data:{labels:sorted.map(function(c){return c[0].length>18?c[0].substring(0,16)+'..':c[0];}),datasets:[{label:'Purchase',data:sorted.map(function(c){return c[1];}),backgroundColor:document.body.classList.contains('dark')?'#ff8787':'#d63031',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{display:false}},y:{beginAtZero:true,ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{color:document.body.classList.contains('dark')?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)'}}},indexAxis:'y'}});
-    }
+    if(pChart)pChart.destroy();
+    if(sorted.length>0){pChart=new Chart(document.getElementById('purC'),{type:'bar',data:{labels:sorted.map(function(c){return c[0].length>18?c[0].substring(0,16)+'..':c[0];}),datasets:[{label:'Purchase',data:sorted.map(function(c){return c[1];}),backgroundColor:document.body.classList.contains('dark')?'#ff8787':'#d63031',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{display:false}},y:{beginAtZero:true,ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{color:document.body.classList.contains('dark')?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)'}}},indexAxis:'y'}});}
 }
 
-/* ===== EXPORT FUNCTIONS ===== */
+/* ===== EXPORTS ===== */
 async function exportTF(){
-    var d=buildTF(),trs=d.tr,rm={};
-    for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
-    var routes=[];for(var k in rm){var tot=0;for(var j=0;j<rm[k].items.length;j++)tot+=rm[k].items[j].qty;routes.push({from:rm[k].from,to:rm[k].to,items:rm[k].items,total:tot});}
-    routes.sort(function(a,b){return b.total-a.total;});
-    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Transfer Routes');
-    ws.columns=[{width:25},{width:5},{width:25},{width:35},{width:18},{width:12}];
+    var d=buildTF(),trs=d.tr,rm={};for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
+    var routes=[];for(var k in rm){var tot=0;for(var j=0;j<rm[k].items.length;j++)tot+=rm[k].items[j].qty;routes.push({from:rm[k].from,to:rm[k].to,items:rm[k].items,total:tot});}routes.sort(function(a,b){return b.total-a.total;});
+    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Transfer Routes');ws.columns=[{width:25},{width:5},{width:25},{width:35},{width:18},{width:12}];
     var r=ws.getRow(1);r.getCell(1).value='FROM STORE';r.getCell(3).value='TO STORE';r.getCell(4).value='CATEGORY';r.getCell(5).value='MRP';r.getCell(6).value='MOVE QTY';
-    r.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});
-    r.getCell(1).alignment={horizontal:'left'};r.getCell(4).alignment={horizontal:'left'};
-    var cr=2;
-    for(var ri=0;ri<routes.length;ri++){
-        var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});
-        var hr=ws.getRow(cr);hr.getCell(1).value=rt.from+' \u2192 '+rt.to;ws.mergeCells(cr,1,cr,3);
-        hr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(1).font={bold:true,color:{argb:'FF0077B6'},size:12};hr.getCell(1).alignment={horizontal:'left'};
-        hr.getCell(6).value=rt.total;hr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(6).font={bold:true,color:{argb:'FF0077B6'},size:11};hr.getCell(6).alignment={horizontal:'center'};
-        cr++;
-        for(var ii=0;ii<rt.items.length;ii++){
-            var it=rt.items[ii],ir=ws.getRow(cr);
-            ir.getCell(1).value=ii===0?rt.from:'';ir.getCell(3).value=ii===0?rt.to:'';ir.getCell(4).value=it.cat;ir.getCell(5).value=it.mrp;ir.getCell(6).value=it.qty;
-            ir.getCell(6).font={name:'Consolas',size:10,bold:true,color:{argb:'FF0077B6'}};ir.getCell(6).alignment={horizontal:'center'};ir.getCell(4).alignment={horizontal:'left'};
-            if(ii===0){ir.getCell(1).font={bold:true,color:{argb:'FFDC2626'}};ir.getCell(3).font={bold:true,color:{argb:'FF0984E3'}};}
-            cr++;
-        }
-        cr++;
-    }
-    var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';ws.mergeCells(cr,1,cr,5);
-    gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).alignment={horizontal:'right'};
-    gr.getCell(6).value=d.tq;gr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(6).font={bold:true,size:14,color:{argb:'FFFFFFFF'}};gr.getCell(6).alignment={horizontal:'center'};
+    r.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});r.getCell(1).alignment={horizontal:'left'};r.getCell(4).alignment={horizontal:'left'};
+    var cr=2;for(var ri=0;ri<routes.length;ri++){var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});var hr=ws.getRow(cr);hr.getCell(1).value=rt.from+' \u2192 '+rt.to;ws.mergeCells(cr,1,cr,3);hr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(1).font={bold:true,color:{argb:'FF0077B6'},size:12};hr.getCell(1).alignment={horizontal:'left'};hr.getCell(6).value=rt.total;hr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(6).font={bold:true,color:{argb:'FF0077B6'},size:11};hr.getCell(6).alignment={horizontal:'center'};cr++;
+        for(var ii=0;ii<rt.items.length;ii++){var it=rt.items[ii],ir=ws.getRow(cr);ir.getCell(1).value=ii===0?rt.from:'';ir.getCell(3).value=ii===0?rt.to:'';ir.getCell(4).value=it.cat;ir.getCell(5).value=it.mrp;ir.getCell(6).value=it.qty;ir.getCell(6).font={name:'Consolas',size:10,bold:true,color:{argb:'FF0077B6'}};ir.getCell(6).alignment={horizontal:'center'};ir.getCell(4).alignment={horizontal:'left'};if(ii===0){ir.getCell(1).font={bold:true,color:{argb:'FFDC2626'}};ir.getCell(3).font={bold:true,color:{argb:'FF0984E3'}};}cr++;}cr++;}
+    var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';ws.mergeCells(cr,1,cr,5);gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).alignment={horizontal:'right'};gr.getCell(6).value=d.tq;gr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(6).font={bold:true,size:14,color:{argb:'FFFFFFFF'}};gr.getCell(6).alignment={horizontal:'center'};
     var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Transfer_Routes.xlsx');
 }
 
 async function exportPUR(){
-    var sd=getSimPurch(),ns=stores.length,wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Purchase');
-    var cols=[{width:28},{width:18}];for(var s=0;s<ns;s++)cols.push({width:12});cols.push({width:12});ws.columns=cols;
+    var sd=getSimPurch(),ns=stores.length,wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Purchase');var cols=[{width:28},{width:18}];for(var s=0;s<ns;s++)cols.push({width:12});cols.push({width:12});ws.columns=cols;
     var r1=ws.getRow(1);r1.getCell(1).value='CATEGORY';r1.getCell(2).value='MRP';for(var s=0;s<ns;s++)r1.getCell(3+s).value=stores[s];r1.getCell(3+ns).value='TOTAL';
     r1.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});r1.getCell(1).alignment={horizontal:'left'};
     var cr=2,gps=Array(ns).fill(0);
-    for(var c=0;c<inv.length;c++){
-        var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];
-        if(hm){for(var m=0;m<cat.mrpDetails.length;m++)ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}
-        else ml.push({range:'TOTAL',base:cat.base,sp:sc.present});
-        var cp=Array(ns).fill(0),ch=false;
-        for(var m=0;m<ml.length;m++){
-            var mr=ml[m],pv=[],rt=0,rhb=false;
-            for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}
-            if(hm&&!rhb) continue;
-            ch=true;var isT=!hm;
-            var er=ws.getRow(cr);er.getCell(1).value=cat.name;er.getCell(2).value=mr.range;
-            if(isT){er.getCell(1).font={bold:true};er.getCell(2).font={bold:true};}
-            for(var si=0;si<ns;si++){
-                cp[si]+=pv[si];gps[si]+=pv[si];var buy=pv[si],bc=er.getCell(3+si);
-                if(buy>0){bc.value=buy;bc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFECACA'}};bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}
-            }
-            var rtc=er.getCell(3+ns);rtc.value=rt;
-            if(rt>0){rtc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};rtc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFFFFFFF'}};rtc.alignment={horizontal:'center'};}
-            cr++;
-        }
-        if(hm&&ch){
-            var cT=0;for(var si=0;si<ns;si++)cT+=cp[si];
-            var trr=ws.getRow(cr);trr.getCell(1).value=cat.name;trr.getCell(2).value='TOTAL';trr.getCell(1).font={bold:true};trr.getCell(2).font={bold:true};
-            trr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};trr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};
-            for(var si=0;si<ns;si++){var bc=trr.getCell(3+si);if(cp[si]>0){bc.value=cp[si];bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}}
-            var tc=trr.getCell(3+ns);tc.value=cT;
-            if(cT>0){tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};tc.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};tc.alignment={horizontal:'center'};}
-            cr++;
-        }
-    }
-    var gt=0;for(var si=0;si<ns;si++)gt+=gps[si];
-    var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gr.getCell(1).alignment={horizontal:'left'};
-    for(var si=0;si<ns;si++){var c=gr.getCell(3+si);c.value=gps[si];c.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};c.alignment={horizontal:'center'};}
-    var gc=gr.getCell(3+ns);gc.value=gt;gc.font={name:'Consolas',size:12,bold:true,color:{argb:'FFFFFFFF'}};gc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gc.alignment={horizontal:'center'};
+    for(var c=0;c<inv.length;c++){var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];if(hm){for(var m=0;m<cat.mrpDetails.length;m++)ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}else ml.push({range:'TOTAL',base:cat.base,sp:sc.present});
+        var cp=Array(ns).fill(0),ch=false;for(var m=0;m<ml.length;m++){var mr=ml[m],pv=[],rt=0,rhb=false;for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}if(hm&&!rhb)continue;ch=true;var isT=!hm;var er=ws.getRow(cr);er.getCell(1).value=cat.name;er.getCell(2).value=mr.range;if(isT){er.getCell(1).font={bold:true};er.getCell(2).font={bold:true};}for(var si=0;si<ns;si++){cp[si]+=pv[si];gps[si]+=pv[si];var buy=pv[si],bc=er.getCell(3+si);if(buy>0){bc.value=buy;bc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFECACA'}};bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}}var rtc=er.getCell(3+ns);rtc.value=rt;if(rt>0){rtc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};rtc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFFFFFFF'}};rtc.alignment={horizontal:'center'};}cr++;}
+        if(hm&&ch){var cT=0;for(var si=0;si<ns;si++)cT+=cp[si];var trr=ws.getRow(cr);trr.getCell(1).value=cat.name;trr.getCell(2).value='TOTAL';trr.getCell(1).font={bold:true};trr.getCell(2).font={bold:true};trr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};trr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};for(var si=0;si<ns;si++){var bc=trr.getCell(3+si);if(cp[si]>0){bc.value=cp[si];bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}}var tc=trr.getCell(3+ns);tc.value=cT;if(cT>0){tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};tc.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};tc.alignment={horizontal:'center'};}cr++;}}
+    var gt=0;for(var si=0;si<ns;si++)gt+=gps[si];var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gr.getCell(1).alignment={horizontal:'left'};for(var si=0;si<ns;si++){var c=gr.getCell(3+si);c.value=gps[si];c.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};c.alignment={horizontal:'center'};}var gc=gr.getCell(3+ns);gc.value=gt;gc.font={name:'Consolas',size:12,bold:true,color:{argb:'FFFFFFFF'}};gc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gc.alignment={horizontal:'center'};
     var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Purchase_Matrix.xlsx');
 }
 
 async function exportMatrix(){
-    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Stock Matrix');
-    var cols=[{width:25},{width:15}];stores.forEach(function(){cols.push({width:8},{width:8});});cols.push({width:20});ws.columns=cols;
+    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Stock Matrix');var cols=[{width:25},{width:15}];stores.forEach(function(){cols.push({width:8},{width:8});});cols.push({width:20});ws.columns=cols;
     var r1=ws.getRow(1);r1.getCell(1).value='Category';r1.getCell(2).value='MRP';var ci2=3;stores.forEach(function(s){r1.getCell(ci2).value=s+' TGT';r1.getCell(ci2+1).value=s+' STK';ci2+=2;});r1.getCell(ci2).value='AI';
     r1.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF00B894'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});r1.getCell(1).alignment={horizontal:'left'};
-    var cr=2;
-    inv.forEach(function(cat){
-        if(cat.mrpDetails.length>0) cat.mrpDetails.forEach(function(mrp){
-            var row=ws.getRow(cr);row.getCell(1).value=cat.name;row.getCell(2).value=mrp.range;var dc=3;
-            stores.forEach(function(_,si){
-                row.getCell(dc).value=mrp.base[si]||0;
-                var sc=row.getCell(dc+1);sc.value=mrp.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};
-                var g=(mrp.present[si]||0)-(mrp.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};
-                dc+=2;
-            });
-            cr++;
-        });
-        var tr=ws.getRow(cr);tr.getCell(1).value=cat.name;tr.getCell(2).value='TOTAL';tr.getCell(1).font={bold:true};tr.getCell(2).font={bold:true};
-        tr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};tr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};
-        var dc=3;stores.forEach(function(_,si){
-            tr.getCell(dc).value=cat.base[si]||0;
-            var sc=tr.getCell(dc+1);sc.value=cat.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};
-            var g=(cat.present[si]||0)-(cat.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};
-            dc+=2;
-        });
-        cr++;
-    });
+    var cr=2;inv.forEach(function(cat){
+        if(cat.mrpDetails.length>0)cat.mrpDetails.forEach(function(mrp){var row=ws.getRow(cr);row.getCell(1).value=cat.name;row.getCell(2).value=mrp.range;var dc=3;stores.forEach(function(_,si){row.getCell(dc).value=mrp.base[si]||0;var sc=row.getCell(dc+1);sc.value=mrp.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};var g=(mrp.present[si]||0)-(mrp.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};dc+=2;});cr++;});
+        var tr=ws.getRow(cr);tr.getCell(1).value=cat.name;tr.getCell(2).value='TOTAL';tr.getCell(1).font={bold:true};tr.getCell(2).font={bold:true};tr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};tr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};var dc=3;stores.forEach(function(_,si){tr.getCell(dc).value=cat.base[si]||0;var sc=tr.getCell(dc+1);sc.value=cat.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};var g=(cat.present[si]||0)-(cat.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};dc+=2;});cr++;});
     var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Stock_Matrix.xlsx');
 }
 
-/* ===== BRANCH ANALYSIS MODAL ===== */
+/* ===== BRANCH ANALYSIS ===== */
 function openStM(si){
     curBrI=si;var nm=stores[si],labels=[],tgts=[],stks=[],tT=0,tS=0,rows='';
-    inv.forEach(function(c){
-        var t=c.base[si]||0,s=c.present[si]||0;
-        if(t>0||s>0){
-            tT+=t;tS+=s;labels.push(c.name.substring(0,15));tgts.push(t);stks.push(s);
-            var g=s-t;
-            var b=g<0?'<span class="bg bd">Buy '+Math.abs(g)+'</span>':(g>0?'<span class="bg bw">Surplus</span>':'<span class="bg bs">OK</span>');
-            rows+='<div class="card p-3 mb-2" style="border-left:4px solid '+(g<0?'var(--danger)':'var(--accent)')+'"><div class="flex justify-between text-xs uppercase mb-1" style="color:var(--muted)"><span>'+c.name+'</span><span>Gap: '+(g>0?'+':'')+g+'</span></div><div class="flex justify-between items-center"><div class="mono text-xs">T: '+t+' | S: '+s+'</div><div>'+b+'</div></div></div>';
-        }
-    });
+    inv.forEach(function(c){var t=c.base[si]||0,s=c.present[si]||0;if(t>0||s>0){tT+=t;tS+=s;labels.push(c.name.substring(0,15));tgts.push(t);stks.push(s);var g=s-t;var b=g<0?'<span class="bg bd">Buy '+Math.abs(g)+'</span>':(g>0?'<span class="bg bw">Surplus</span>':'<span class="bg bs">OK</span>');rows+='<div class="card p-3 mb-2" style="border-left:4px solid '+(g<0?'var(--danger)':'var(--accent)')+'"><div class="flex justify-between text-xs uppercase mb-1" style="color:var(--muted)"><span>'+c.name+'</span><span>Gap: '+(g>0?'+':'')+g+'</span></div><div class="flex justify-between items-center"><div class="mono text-xs">T: '+t+' | S: '+s+'</div><div>'+b+'</div></div></div>';}});
     document.getElementById('stMB').innerHTML='<div style="height:240px;margin-bottom:18px;position:relative"><canvas id="brCh"></canvas></div><div class="grid grid-cols-2 gap-4 mb-5 text-center"><div class="p-4 rounded-xl" style="background:var(--bg)"><p class="text-xs uppercase font-bold" style="color:var(--muted)">Target</p><p class="text-2xl font-extrabold mono">'+tT+'</p></div><div class="p-4 rounded-xl" style="background:var(--info);color:white"><p class="text-xs uppercase font-bold opacity-80">Stock</p><p class="text-2xl font-extrabold mono">'+tS+'</p></div></div><h3 class="font-bold text-xs mb-3 uppercase tracking-wider" style="color:var(--muted)">Breakdown</h3><div>'+rows+'</div>';
-    document.getElementById('stMN').textContent=nm+' Analysis';
-    document.getElementById('stM').classList.remove('hd');
-    if(bChart) bChart.destroy();
-    var dk=document.body.classList.contains('dark'),tc=dk?'#e6f1ff':'#102a43';
+    document.getElementById('stMN').textContent=nm+' Analysis';document.getElementById('stM').classList.remove('hd');
+    if(bChart)bChart.destroy();var dk=document.body.classList.contains('dark'),tc=dk?'#e6f1ff':'#102a43';
     bChart=new Chart(document.getElementById('brCh'),{type:'bar',data:{labels:labels,datasets:[{label:'Target',data:tgts,backgroundColor:dk?'rgba(100,255,218,.3)':'rgba(0,184,148,.3)',borderRadius:4},{label:'Stock',data:stks,backgroundColor:dk?'rgba(78,168,222,.3)':'rgba(9,132,227,.3)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:tc}}},scales:{x:{grid:{display:false},ticks:{color:tc}},y:{beginAtZero:true,ticks:{color:tc}}}}});
 }
 function closeStM(){document.getElementById('stM').classList.add('hd');}
 
 async function exportBr(){
-    if(curBrI===null) return;
-    var si=curBrI,nm=stores[si],wb=new ExcelJS.Workbook(),ws=wb.addWorksheet(nm);
-    ws.columns=[{width:25},{width:10},{width:10},{width:30}];ws.addRow(['Report: '+nm]);ws.addRow(['Category','Target','Stock','Action']);
-    inv.forEach(function(c){var p=Math.max(0,(c.base[si]||0)-(c.present[si]||0));ws.addRow([c.name,c.base[si]||0,c.present[si]||0,p>0?'Buy '+p:'OK']);});
-    var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),nm+'_Report.xlsx');
+    if(curBrI===null)return;var si=curBrI,nm=stores[si],wb=new ExcelJS.Workbook(),ws=wb.addWorksheet(nm);ws.columns=[{width:25},{width:10},{width:10},{width:30}];ws.addRow(['Report: '+nm]);ws.addRow(['Category','Target','Stock','Action']);inv.forEach(function(c){var p=Math.max(0,(c.base[si]||0)-(c.present[si]||0));ws.addRow([c.name,c.base[si]||0,c.present[si]||0,p>0?'Buy '+p:'OK']);});var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),nm+'_Report.xlsx');
 }
 
-/* ===== MANUAL ENTRY ===== */
-function addBr(){
-    if(cCon){showToast('Cannot add - connected to Sheet');return;}
-    var n=document.getElementById('nBr').value.trim().toUpperCase();
-    if(!n||stores.includes(n)) return alert('Empty or duplicate');
-    stores.push(n);
-    inv.forEach(function(c){while(c.base.length<stores.length)c.base.push(0);while(c.present.length<stores.length)c.present.push(0);c.mrpDetails.forEach(function(m){while(m.base.length<stores.length)m.base.push(0);while(m.present.length<stores.length)m.present.push(0);});});
-    enforceDI();saveData();render();document.getElementById('nBr').value='';showToast('Branch added');
-}
+/* ===== MANUAL ===== */
+function addBr(){if(cCon){showToast('Cannot add - connected to Sheet');return;}var n=document.getElementById('nBr').value.trim().toUpperCase();if(!n||stores.includes(n))return alert('Empty or duplicate');stores.push(n);inv.forEach(function(c){while(c.base.length<stores.length)c.base.push(0);while(c.present.length<stores.length)c.present.push(0);c.mrpDetails.forEach(function(m){while(m.base.length<stores.length)m.base.push(0);while(m.present.length<stores.length)m.present.push(0);});});enforceDI();saveData();render();document.getElementById('nBr').value='';showToast('Branch added');}
 
-function updMrp(){
-    var n=document.getElementById('mCat').value.toUpperCase().trim(),l=document.getElementById('mDL');l.innerHTML='';
-    if(!n) return;
-    var c=null;for(var i=0;i<inv.length;i++){if(inv[i].name===n){c=inv[i];break;}}
-    if(c&&c.mrpDetails) c.mrpDetails.forEach(function(m){var o=document.createElement('option');o.value=m.range;o.textContent=m.range;l.appendChild(o);});
-}
+function updMrp(){var n=document.getElementById('mCat').value.toUpperCase().trim(),l=document.getElementById('mDL');l.innerHTML='';if(!n)return;var c=null;for(var i=0;i<inv.length;i++){if(inv[i].name===n){c=inv[i];break;}}if(c&&c.mrpDetails)c.mrpDetails.forEach(function(m){var o=document.createElement('option');o.value=m.range;o.textContent=m.range;l.appendChild(o);});}
 
 function saveManual(){
     var nm=document.getElementById('mCat').value.toUpperCase().trim(),mr=document.getElementById('mMrp').value.trim(),si=parseInt(document.getElementById('mBr').value),st=parseInt(document.getElementById('mVal').value)||0;
-    if(!nm||!mr||isNaN(si)) return alert('Fill all fields');
-    var idx=-1;for(var i=0;i<inv.length;i++){if(inv[i].name===nm){idx=i;break;}}
-    if(idx===-1){showToast('Category not found');return;}
+    if(!nm||!mr||isNaN(si))return alert('Fill all fields');var idx=-1;for(var i=0;i<inv.length;i++){if(inv[i].name===nm){idx=i;break;}}if(idx===-1){showToast('Category not found');return;}
     var c=inv[idx];
-    if(si===-1){
-        if(c.mrpDetails.length>0){
-            for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){for(var i=0;i<stores.length;i++)c.mrpDetails[j].present[i]=st;enforceDI();closeManM();saveData();render();return;}}
-            showToast('MRP not found');
-        }else{for(var i=0;i<stores.length;i++)c.present[i]=st;enforceDI();closeManM();saveData();render();}
-    }else{
-        if(c.mrpDetails.length>0){
-            for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){c.mrpDetails[j].present[si]=st;enforceDI();closeManM();saveData();render();return;}}
-            showToast('MRP not found');
-        }else{c.present[si]=st;enforceDI();closeManM();saveData();render();}
-    }
+    if(si===-1){if(c.mrpDetails.length>0){for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){for(var i=0;i<stores.length;i++)c.mrpDetails[j].present[i]=st;enforceDI();closeManM();saveData();render();return;}}showToast('MRP not found');}else{for(var i=0;i<stores.length;i++)c.present[i]=st;enforceDI();closeManM();saveData();render();}}
+    else{if(c.mrpDetails.length>0){for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){c.mrpDetails[j].present[si]=st;enforceDI();closeManM();saveData();render();return;}}showToast('MRP not found');}else{c.present[si]=st;enforceDI();closeManM();saveData();render();}}
 }
 
-/* ===== MISC ===== */
 function toggleTheme(){document.body.classList.toggle('dark');render();}
 function openManualM(){render();document.getElementById('manM').classList.remove('hd');}
 function closeManM(){document.getElementById('manM').classList.add('hd');}
 
 /* ===== INIT ===== */
 window.onload=async function(){
-    dbg('=== SUBHAM GRAND INIT ===');
-    updSync();
-    var ok = await syncLoad();
-    if(ok){
-        dbg('SUCCESS');
-        render();
-        showToast('Connected! '+stores.length+' stores, '+inv.length+' categories');
-        setTimeout(function(){document.getElementById('dbg').style.display='none';},5000);
-    }else{
-        dbg('FAIL - loading local');
-        loadLocal();
-        if(inv.length>0){
-            render();
-            showToast('Using '+inv.length+' local categories (offline)');
-        }else{
-            document.getElementById('mBody').innerHTML='<tr><td colspan="50" style="text-align:center;padding:50px 18px;border:none"><p style="font-size:16px;font-weight:800;color:var(--danger)">Could not connect to Google Sheet</p><p style="font-size:12px;color:var(--muted);margin-top:10px">Check debug log (bottom-right corner).</p><p style="font-size:11px;color:var(--muted);margin-top:8px">Requirements:</p><p style="font-size:11px;color:var(--muted)">1. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Store_Name</code> in A1</p><p style="font-size:11px;color:var(--muted)">2. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Category</code> in A1 and <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">MRP/Size</code> in B1</p><p style="font-size:11px;color:var(--muted)">3. Apps Script deployed as Web App (Anyone access)</p><p style="font-size:11px;color:var(--muted)">4. Store column headers in Inventory must match Stores list exactly</p></td></tr>';
-        }
-        setTimeout(function(){document.getElementById('dbg').style.display='none';},15000);
-    }
+    dbg('=== SUBHAM GRAND INIT ===');updSync();
+    var ok=await syncLoad();
+    if(ok){dbg('SUCCESS');render();showToast('Connected! '+stores.length+' stores, '+inv.length+' categories');setTimeout(function(){document.getElementById('dbg').style.display='none';},5000);}
+    else{dbg('FAIL - loading local');loadLocal();if(inv.length>0){render();showToast('Using '+inv.length+' local categories (offline)');}else{document.getElementById('mBody').innerHTML='<tr><td colspan="50" style="text-align:center;padding:50px 18px;border:none"><p style="font-size:16px;font-weight:800;color:var(--danger)">Could not connect to Google Sheet</p><p style="font-size:12px;color:var(--muted);margin-top:10px">Check debug log (bottom-right corner).</p><p style="font-size:11px;color:var(--muted);margin-top:8px">Requirements:</p><p style="font-size:11px;color:var(--muted)">1. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Store_Name</code> in A1</p><p style="font-size:11px;color:var(--muted)">2. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Category</code> in A1 and <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">MRP/Size</code> in B1</p><p style="font-size:11px;color:var(--muted)">3. Apps Script deployed as Web App (Anyone access)</p><p style="font-size:11px;color:var(--muted)">4. Store column headers in Inventory must match Stores list exactly</p></td></tr>';}setTimeout(function(){document.getElementById('dbg').style.display='none';},15000);}
 };
 </script>
 </body>
