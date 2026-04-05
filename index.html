@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subham Grand | Readymade Supply Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#f0f4f8;--bg2:#fff;--text:#102a43;--muted:#627d98;--accent:#00b894;--accentD:#00a383;--danger:#d63031;--dangerL:#ff7675;--warn:#fdcb6e;--info:#0984e3;--border:#d9e2ec;--shadow:0 10px 40px -10px rgba(0,0,0,.08);--hover:#f7fafc}
+        .dark{--bg:#0a192f;--bg2:#112240;--text:#e6f1ff;--muted:#8892b0;--accent:#64ffda;--accentD:#4fd1c5;--danger:#ff6b6b;--dangerL:#ff8787;--warn:#ffeaa7;--info:#4ea8de;--border:#233554;--shadow:0 10px 40px -10px rgba(0,0,0,.5);--hover:#172a45}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;transition:background .4s,color .4s}
+        .mono{font-family:'JetBrains Mono',monospace}
+        .wrap{max-width:1640px;margin:0 auto;padding:28px}
+        .card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);transition:background .3s,border-color .3s}
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .25s;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+        .btn:active{transform:scale(.97)}
+        .btn-p{background:linear-gradient(135deg,var(--accent),var(--accentD));color:#fff;box-shadow:0 4px 14px rgba(0,184,148,.3)}.btn-p:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        .btn-d{background:linear-gradient(135deg,var(--danger),var(--dangerL));color:#fff;box-shadow:0 4px 14px rgba(214,48,49,.3)}.btn-d:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        .btn-s{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+        .btn-i{background:linear-gradient(135deg,var(--info),#0077b6);color:#fff;box-shadow:0 4px 14px rgba(9,132,227,.3)}.btn-i:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        .btn-o{background:var(--bg);color:var(--text);border:2px solid var(--border)}.btn-o:hover{border-color:var(--accent);color:var(--accent);background:var(--hover)}
+        .btn-w{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}.btn-w:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        .inp{width:100%;padding:11px 15px;border:2px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--text);transition:border-color .2s}.inp:focus{outline:none;border-color:var(--accent)}
+        .tabs{display:flex;gap:5px;background:var(--bg2);padding:5px;border-radius:13px;border:1px solid var(--border);margin-bottom:22px}
+        .tab{flex:1;padding:11px 18px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-weight:700;font-size:12px;cursor:pointer;transition:all .3s}
+        .tab.on{background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(0,184,148,.3)}.tab:not(.on):hover{background:var(--hover)}
+        .twrap{overflow:auto;max-height:66vh;border:1px solid var(--border);border-radius:12px;background:var(--bg2);position:relative}
+        .twrap-xl{max-height:78vh}
+        .mtable{display:table;width:100%;border-collapse:separate;border-spacing:0;min-width:1200px}
+        .rtable{display:table;width:100%;border-collapse:separate;border-spacing:0;min-width:960px}
+        .mtable th,.rtable th{background:var(--bg);padding:13px 7px;text-align:center;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);border-left:1px solid var(--border);letter-spacing:.5px;position:sticky;top:0;z-index:10;white-space:nowrap}
+        .cc{width:250px;min-width:250px;max-width:250px}.cm{width:145px;min-width:145px;max-width:145px}.cd{width:100px;min-width:100px}.cs{width:78px;min-width:78px;max-width:78px}
+        .mtable th:first-child{border-left:none;text-align:left;padding-left:18px;border-radius:12px 0 0 0}
+        .thsc{position:sticky!important;top:0!important;z-index:10!important;padding:0!important;overflow:visible!important;vertical-align:top;background:rgba(0,184,148,.04);border-bottom:2px solid var(--accent)!important}
+        .thbs{z-index:12!important;border-right:none!important}
+        .thsn{height:28px;line-height:28px;font-size:10px;font-weight:800;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accentD));padding:0 5px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .thbs .thsn{width:200%}
+        .thsg{visibility:hidden;height:28px;line-height:28px}
+        .thss{height:18px;line-height:18px;font-size:7px;font-weight:800;text-transform:uppercase;color:var(--accent);background:rgba(0,184,148,.05);padding:0 3px;letter-spacing:.6px;text-align:center}
+        .thcs{border-left:1px solid rgba(0,184,148,.2)!important}
+        .thsep{border-left:2px solid rgba(0,184,148,.4)!important}
+        .thcsl{border-right:2px solid rgba(0,184,148,.4)!important}
+        .mtable td,.rtable td{padding:9px 5px;font-size:11px;border-bottom:1px solid var(--border);border-left:1px solid var(--border);text-align:center;vertical-align:middle;transition:background .15s;background:var(--bg2)}
+        .mtable td:first-child{border-left:none;text-align:left;padding-left:18px;font-weight:700}
+        .mtable tbody tr:hover td{background:var(--hover)!important}.mtable tbody tr:hover td:first-child{color:var(--accent)}
+        .sk1{position:sticky;left:0;z-index:5;width:250px;min-width:250px;max-width:250px;border-right:2px solid var(--border);background:var(--bg2)}
+        .sk2{position:sticky;left:250px;z-index:5;width:145px;min-width:145px;max-width:145px;border-right:2px solid var(--border);background:var(--bg2)}
+        thead .sk1,thead .sk2{z-index:20;background:var(--bg)}
+        .mtable tbody tr:hover .sk1,.mtable tbody tr:hover .sk2{background:var(--hover)!important}
+        .ska{position:sticky;right:0;z-index:5;background:var(--bg2);border-left:2px solid var(--border)}
+        thead .ska{z-index:20;background:var(--bg)}.mtable tbody tr:hover .ska{background:var(--hover)!important}
+        tr.trow td.sk1,tr.trow td.sk2,tr.trow td.ska{background:rgba(0,184,148,.03)}
+        .nt{background-color:rgba(9,132,227,.1);color:var(--info);font-family:'JetBrains Mono',monospace;font-weight:700;display:block;padding:5px;border-radius:6px;border:1px solid rgba(9,132,227,.2);font-size:11px}
+        .ns{font-family:'JetBrains Mono',monospace;font-weight:700;display:block;padding:5px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:all .2s;font-size:11px;color:#1a202c}
+        .ns:hover{opacity:.8;transform:scale(1.04)}
+        .ss{background-color:#fecaca;border-color:#fca5a5;color:#7f1d1d}
+        .sh{background-color:#bbf7d0;border-color:#86efac;color:#14532d}
+        .se{background-color:#bfdbfe;border-color:#93c5fd;color:#1e3a5f}
+        .pv{background-color:rgba(214,48,49,.1);color:var(--danger);font-family:'JetBrains Mono',monospace;font-weight:700;display:block;padding:5px;border-radius:6px;border:1px solid rgba(214,48,49,.2);font-size:11px}
+        .pt{background:linear-gradient(135deg,rgba(214,48,49,.15),rgba(214,48,49,.25));color:var(--danger);font-family:'JetBrains Mono',monospace;font-weight:900;display:block;padding:7px;border-radius:8px;border:2px solid rgba(214,48,49,.3);font-size:13px}
+        .zd{color:var(--muted);font-size:10px;opacity:.5}
+        .tfi{background-color:rgba(9,132,227,.12);color:var(--info);font-family:'JetBrains Mono',monospace;font-weight:700;display:block;padding:5px;border-radius:6px;border:1px solid rgba(9,132,227,.25);font-size:11px}
+        .tft{background:linear-gradient(135deg,rgba(9,132,227,.15),rgba(9,132,227,.25));color:var(--info);font-family:'JetBrains Mono',monospace;font-weight:900;display:block;padding:7px;border-radius:8px;border:2px solid rgba(9,132,227,.3);font-size:13px}
+        .dark .nt{background-color:rgba(78,168,222,.18);border-color:rgba(125,211,252,.35);color:#7dd3fc}
+        .dark .ns{color:var(--text)}
+        .dark .ss{background-color:rgba(239,68,68,.22);border-color:rgba(248,113,113,.4);color:#fca5a5!important}
+        .dark .sh{background-color:rgba(34,197,94,.22);border-color:rgba(74,222,128,.4);color:#86efac!important}
+        .dark .se{background-color:rgba(59,130,246,.22);border-color:rgba(96,165,250,.4);color:#93c5fd!important}
+        .dark .pv{background-color:rgba(255,107,107,.18);border-color:rgba(255,135,135,.35);color:#ff8787}
+        .dark .pt{background:linear-gradient(135deg,rgba(255,107,107,.22),rgba(255,107,107,.32));color:#ff8787;border-color:rgba(255,135,135,.45)}
+        .dark .zd{opacity:.55;color:#8892b0}
+        .dark .tfi{background-color:rgba(78,168,222,.2);border-color:rgba(125,211,252,.4);color:#7dd3fc}
+        .dark .tft{background:linear-gradient(135deg,rgba(78,168,222,.22),rgba(78,168,222,.32));color:#7dd3fc;border-color:rgba(125,211,252,.45)}
+        .dark tr.trow td.sk1,.dark tr.trow td.sk2,.dark tr.trow td.ska{background:rgba(100,255,218,.04)}
+        .dark tr.gtr td{background:rgba(78,168,222,.08)!important;color:#7dd3fc}
+        .dark tr.gtr td.sk1,.dark tr.gtr td.sk2,.dark tr.gtr td.ska{background:rgba(78,168,222,.1)!important}
+        .dark tr.pgr td{background:rgba(255,107,107,.08)!important;color:#ff8787}
+        .dark tr.pgr td.sk1,.dark tr.pgr td.sk2,.dark tr.pgr td.ska{background:rgba(255,107,107,.1)!important}
+        .dark .rsep td{background:rgba(78,168,222,.08)!important;color:#7dd3fc}
+        .dark .rsep td:hover{background:rgba(78,168,222,.08)!important}
+        .dark .rsub td{background:rgba(78,168,222,.04)!important}
+        .dark .rgrand td{background:rgba(78,168,222,.12)!important;color:#7dd3fc}
+        .dark .thsc{background:rgba(100,255,218,.02)}
+        .dark .thss{background:rgba(100,255,218,.04);color:var(--accent)}
+        .dark .thcs{border-left-color:rgba(100,255,218,.15)!important}
+        .dark .thsep{border-left-color:rgba(100,255,218,.25)!important}
+        .dark .thcsl{border-right-color:rgba(100,255,218,.25)!important}
+        .dark .bc{background:rgba(99,102,241,.15);color:#a5b4fc;border-color:rgba(99,102,241,.3)}
+        .dark .rht{background:linear-gradient(135deg,#1e3a5f,#0d2847)}
+        .dark .rhp{background:linear-gradient(135deg,#5f1e1e,#471010)}
+        .dark .ln{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25);color:#a5b4fc}
+        .dark .cb{background:rgba(99,102,241,.15);color:#a5b4fc;border-color:rgba(99,102,241,.3)}
+        .dark .bd{background:rgba(255,107,107,.15);color:#ff8787;border-color:rgba(255,107,107,.3)}
+        .dark .bi{background:rgba(78,168,222,.15);color:#7dd3fc;border-color:rgba(78,168,222,.3)}
+        .dark .bs{background:rgba(100,255,218,.12);color:#64ffda;border-color:rgba(100,255,218,.3)}
+        .dark .bw{background:rgba(253,203,110,.08);color:var(--warn)}
+        .dark .fc-l{color:var(--muted)}
+        .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+        .mc{background:var(--bg2);border-radius:20px;max-width:600px;width:100%;max-height:90vh;overflow:hidden;box-shadow:0 25px 50px -12px rgba(0,0,0,.4);border:1px solid var(--border)}
+        .mc-lg{max-width:900px}.hd{display:none!important}
+        .rh{padding:30px;border-radius:16px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px -5px rgba(0,0,0,.3)}
+        .rht{background:linear-gradient(135deg,var(--info),#0077b6);color:#fff}
+        .rhp{background:linear-gradient(135deg,var(--danger),var(--dangerL));color:#fff}
+        .bg{display:inline-flex;padding:4px 9px;border-radius:6px;font-size:9px;font-weight:700;border:1px solid transparent}
+        .bd{background:rgba(214,48,49,.1);color:var(--danger)}.bi{background:rgba(9,132,227,.1);color:var(--info)}
+        .bw{background:rgba(253,203,110,.15);color:#92400e}.bs{background:rgba(0,184,148,.1);color:var(--accent)}
+        .bc{background:rgba(99,102,241,.12);color:#6366f1;border-color:rgba(99,102,241,.25)}
+        .bicon{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accentD));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,184,148,.25)}
+        #toast{visibility:hidden;min-width:260px;background-color:var(--accent);color:#fff;text-align:center;border-radius:10px;padding:13px 18px;position:fixed;z-index:200;left:50%;bottom:28px;transform:translateX(-50%);font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+        #toast.show{visibility:visible;animation:fi .5s,fo .5s 2.5s}
+        @keyframes fi{from{bottom:0;opacity:0}to{bottom:28px;opacity:1}}
+        @keyframes fo{from{bottom:28px;opacity:1}to{bottom:0;opacity:0}}
+        .sd{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0}
+        .sd-on{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+        .sd-off{background:var(--danger)}
+        .sd-sy{background:var(--warn);animation:pu 1s infinite}
+        @keyframes pu{0%,100%{opacity:1}50%{opacity:.3}}
+        #dbg{position:fixed;bottom:8px;right:8px;max-width:440px;max-height:240px;overflow:auto;background:rgba(0,0,0,.93);color:#0f0;font-family:'JetBrains Mono',monospace;font-size:9px;padding:8px;border-radius:8px;z-index:300;display:none}
+        .ra{color:var(--info);font-weight:900;font-size:17px;line-height:1}
+        .rsep td{background:rgba(9,132,227,.06)!important;padding:13px 18px!important;font-weight:800;font-size:12px;color:var(--info);letter-spacing:.3px}
+        .rsub td{background:rgba(9,132,227,.03)!important}
+        .rgrand td{background:rgba(9,132,227,.1)!important;font-weight:900;border-top:3px double var(--info)}
+        .fc{padding:14px;border-radius:11px;text-align:center;border:1px solid var(--border);background:var(--bg2);transition:transform .2s}
+        .fc:hover{transform:translateY(-2px)}
+        .fc-n{font-weight:800;font-size:12px;margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .fc-l{font-size:8px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:1px}
+        .fc-v{font-size:15px;font-weight:800}
+        .ln{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:11px 16px;margin-bottom:18px;display:flex;align-items:center;gap:9px;font-size:12px;color:#6366f1}
+        .cb{background:rgba(99,102,241,.12);color:#6366f1;border:1px solid rgba(99,102,241,.25);border-radius:8px;padding:5px 12px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+        .ibx{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:11px;line-height:1.9;color:var(--muted)}
+        .ibx strong{color:var(--text)}
+        .ibx code{background:var(--bg2);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px}
+        @media(max-width:768px){.wrap{padding:14px}}
+        @media print{.np{display:none!important}}
+        .up-preview{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;background:var(--bg)}
+        .up-preview table{width:100%;border-collapse:collapse;font-size:10px}
+        .up-preview th{background:var(--accent);color:#fff;padding:6px 8px;text-align:left;font-weight:700;position:sticky;top:0;z-index:2}
+        .up-preview td{padding:5px 8px;border-bottom:1px solid var(--border)}
+        .up-preview .match{color:var(--accent);font-weight:700}
+        .up-preview .nomatch{color:var(--danger);font-weight:700}
+        .up-preview .ignored{color:var(--muted);font-style:italic}
+    </style>
+</head>
+<body>
+
+<div id="dashV" class="wrap">
+    <header class="card p-7 mb-7">
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
+            <div class="flex items-center gap-4">
+                <div class="bicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18"/></svg></div>
+                <div><h1 class="text-xl font-extrabold tracking-tight">Subham Grand</h1><p class="text-xs font-medium" style="color:var(--muted)">Readymade Supply Intelligence — Cloud</p></div>
+            </div>
+            <div class="flex flex-wrap gap-2 items-center np">
+                <div id="syncSt" class="flex items-center text-xs font-bold" style="color:var(--muted);cursor:pointer" onclick="openCloudM()" title="Cloud Settings"><span id="syncD" class="sd sd-sy"></span><span id="syncL">Loading...</span></div>
+                <div id="cBadge" class="cb hd">Cloud Live</div>
+                <button onclick="toggleTheme()" class="btn btn-o">Theme</button>
+                <button onclick="openTFR()" class="btn btn-i">Transfer</button>
+                <button onclick="openPUR()" class="btn btn-d">Purchase</button>
+                <button onclick="document.getElementById('upI').click()" class="btn btn-p">Upload Stock</button>
+                <input type="file" id="upI" class="hd" accept=".xlsx,.xls,.csv" onchange="handleUpload(event)">
+                <button onclick="clearStock()" class="btn btn-o">Clear</button>
+                <button onclick="exportMatrix()" class="btn btn-i">Export</button>
+                <button onclick="openManualM()" class="btn btn-o">Manual</button>
+            </div>
+        </div>
+    </header>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-7">
+        <div class="card p-5" style="border-left:5px solid var(--accent)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Total Target</p><div id="sTB" class="text-2xl font-extrabold mono">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--info)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Total Stock</p><div id="sTS" class="text-2xl font-extrabold mono" style="color:var(--info)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--danger)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--danger)">Net Shortage</p><div id="sNS" class="text-2xl font-extrabold mono" style="color:var(--danger)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--accent)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Efficiency</p><div id="sEF" class="text-2xl font-extrabold mono" style="color:var(--accent)">0%</div></div>
+    </div>
+    <div class="tabs np">
+        <button class="tab on" onclick="swTab('matrix',this)">Stock Matrix</button>
+        <button class="tab" onclick="swTab('analytics',this)">Analytics</button>
+        <button class="tab" onclick="swTab('actions',this)">Actions</button>
+    </div>
+    <div id="tabMatrix" class="tc"><div class="card"><div class="twrap" style="border:none"><table class="mtable" id="hTable"><thead id="mHead"></thead><tbody id="mBody"></tbody></table></div></div></div>
+    <div id="tabAnalytics" class="tc hd">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-7">
+            <div class="card p-7"><div class="flex justify-between items-center mb-5"><h3 class="font-bold text-base">Category Deep Dive</h3><select id="cFilter" onchange="refreshCharts()" class="inp" style="width:auto"></select></div><div style="position:relative;height:340px"><canvas id="mainC"></canvas></div></div>
+            <div class="card p-7 flex flex-col justify-center items-center text-center"><h3 class="font-bold text-base mb-5">Network Health</h3><p class="text-sm" style="color:var(--muted)">Select a category to analyze.</p><div class="mt-5 p-5 rounded-xl w-full" style="background:var(--bg)"><p class="text-xs uppercase tracking-wider font-bold mb-1" style="color:var(--muted)">Total Categories</p><p id="nCats" class="text-4xl font-extrabold mono">0</p></div></div>
+        </div>
+    </div>
+    <div id="tabActions" class="tc hd">
+        <div class="ln"><span style="font-size:15px">&#128274;</span><span id="lockTxt">Targets, Categories & MRP ranges are managed in Google Sheet. Only stock values are editable here.</span></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+            <div id="addBrC" class="card p-7"><h3 class="font-bold mb-5 text-xs uppercase tracking-wider" style="color:var(--muted)">Add Branch</h3><div class="flex gap-2"><input type="text" id="nBr" placeholder="Branch Name" class="inp"><button onclick="addBr()" class="btn btn-p">Add</button></div></div>
+            <div class="card p-7" style="opacity:.55;pointer-events:none"><h3 class="font-bold mb-5 text-xs uppercase tracking-wider" style="color:var(--muted)">Add Category <span class="bg bc">SHEET</span></h3><p class="text-xs" style="color:var(--muted)">Add rows in Google Sheet &rarr; Inventory tab</p></div>
+            <div class="card p-7" style="opacity:.55;pointer-events:none"><h3 class="font-bold mb-5 text-xs uppercase tracking-wider" style="color:var(--muted)">Edit Targets <span class="bg bc">SHEET</span></h3><p class="text-xs" style="color:var(--muted)">Edit the Targets sheet, then Pull All.</p></div>
+            <div id="rstTC" class="card p-7"><h3 class="font-bold mb-3 text-xs uppercase tracking-wider" style="color:var(--muted)">Reset Baseline</h3><p class="text-xs mb-4" style="color:var(--muted)">Set current stock as new targets. Creates/overwrites Targets sheet.</p><button onclick="resetTargets()" class="btn btn-w w-full">Reset Baseline</button></div>
+        </div>
+        <div class="ibx mt-7">
+            <strong>How it works:</strong><br>
+            &bull; <code>Stores</code> sheet &mdash; Store names in Column A (A1=Store_Name)<br>
+            &bull; <code>Inventory</code> sheet &mdash; Category | MRP/Size | Store1 | Store2 ...<br>
+            &bull; <code>Targets</code> sheet &mdash; (auto-created) Same layout, holds baseline values<br>
+            &bull; <strong>Shortage</strong> = Target &minus; Current Stock per store<br>
+            &bull; <strong>Upload Stock</strong> &mdash; Updates Inventory sheet values only<br>
+            &bull; <strong>Reset Baseline</strong> &mdash; Copies current stock into Targets sheet
+        </div>
+    </div>
+</div>
+
+<div id="tfV" class="wrap hd">
+    <div class="rh rht"><div><h1 class="text-2xl font-extrabold tracking-tight">Stock Transfer Report</h1><p class="text-sm opacity-80 mt-1">Store-to-store movement plan</p></div><div class="flex gap-2 np"><button onclick="exportTF()" class="btn" style="background:rgba(255,255,255,.15);border:none;color:#fff">Export</button><button onclick="closeTFR()" class="btn" style="background:rgba(255,255,255,.15);border:none;color:#fff">Close</button></div></div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-7">
+        <div class="card p-5" style="border-left:5px solid var(--info)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Total to Move</p><div id="tfT" class="text-2xl font-extrabold mono" style="color:var(--info)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--accent)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Purchases Saved</p><div id="tfS" class="text-2xl font-extrabold mono" style="color:var(--accent)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--warn)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Active Routes</p><div id="tfR" class="text-2xl font-extrabold mono" style="color:var(--warn)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--accent)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Categories Moved</p><div id="tfC" class="text-2xl font-extrabold mono" style="color:var(--accent)">0</div></div>
+    </div>
+    <div id="tfSum" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-7"></div>
+    <div class="card"><div class="twrap twrap-xl" style="border:none"><table class="rtable" id="tfTbl"><thead id="tfH"></thead><tbody id="tfB"></tbody></table></div></div>
+</div>
+
+<div id="prV" class="wrap hd">
+    <div class="rh rhp"><div><h1 class="text-2xl font-extrabold tracking-tight">Purchase Requirement</h1><p class="text-sm opacity-80 mt-1">After transfers &mdash; what still needs buying</p></div><div class="flex gap-2 np"><button onclick="exportPUR()" class="btn" style="background:rgba(255,255,255,.15);border:none;color:#fff">Export</button><button onclick="closePUR()" class="btn" style="background:rgba(255,255,255,.15);border:none;color:#fff">Close</button></div></div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-7">
+        <div class="card p-5" style="border-left:5px solid var(--danger)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Total to Buy</p><div id="prT" class="text-2xl font-extrabold mono" style="color:var(--danger)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--info)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Stores Affected</p><div id="prS" class="text-2xl font-extrabold mono" style="color:var(--info)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--warn)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Categories Needed</p><div id="prC" class="text-2xl font-extrabold mono" style="color:var(--warn)">0</div></div>
+        <div class="card p-5" style="border-left:5px solid var(--accent)"><p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--muted)">Transfers Applied</p><div id="prX" class="text-2xl font-extrabold mono" style="color:var(--accent)">0</div></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-7 mb-7">
+        <div class="card p-7 lg:col-span-2"><h3 class="font-bold mb-5 text-base">Top Critical Categories</h3><div style="height:260px;position:relative"><canvas id="purC"></canvas></div></div>
+        <div class="card p-7 flex flex-col justify-center"><div class="text-center mb-5"><p class="text-xs uppercase tracking-wider font-bold mb-1" style="color:var(--muted)">TOTAL TO PURCHASE</p><p id="prBT" class="text-4xl font-extrabold mono" style="color:var(--danger)">0</p></div><div class="text-center"><p class="text-xs uppercase tracking-wider font-bold mb-1" style="color:var(--muted)">STORES AFFECTED</p><p id="prBS" class="text-2xl font-bold mono" style="color:var(--info)">0</p></div></div>
+    </div>
+    <div class="card"><div class="twrap twrap-xl" style="border:none"><table class="mtable" id="prTbl"><thead id="prH"></thead><tbody id="prB"></tbody></table></div></div>
+</div>
+
+<div id="cloudM" class="mo hd"><div class="mc"><div class="p-7" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff"><h2 class="text-lg font-bold">Google Sheet Connection</h2></div><div class="p-7 space-y-4"><div><label class="text-xs font-bold block mb-1 uppercase tracking-wider" style="color:var(--muted)">Apps Script URL</label><input type="url" id="apiInp" class="inp mono text-xs"></div><div class="flex gap-2"><button onclick="doPull()" class="btn btn-i flex-1">Pull All</button><button onclick="doPush()" class="btn btn-s flex-1">Push Stock</button></div></div><div class="p-4 text-center" style="border-top:1px solid var(--border)"><button onclick="closeCloudM()" style="color:var(--muted);cursor:pointer;background:none;border:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Close</button></div></div></div>
+
+<div id="manM" class="mo hd"><div class="mc"><div class="p-7" style="background:var(--accent);color:#fff"><h2 class="text-lg font-bold">Manual Stock Entry</h2></div><div class="p-7 space-y-4"><div class="grid grid-cols-2 gap-4"><div><label class="text-xs font-bold block mb-1 uppercase tracking-wider" style="color:var(--muted)">Category</label><input type="text" id="mCat" list="cDL" class="inp" placeholder="Select or type" oninput="updMrp()"><datalist id="cDL"></datalist></div><div><label class="text-xs font-bold block mb-1 uppercase tracking-wider" style="color:var(--muted)">MRP Range</label><input type="text" id="mMrp" list="mDL" class="inp" placeholder="Select"><datalist id="mDL"></datalist></div></div><div class="grid grid-cols-2 gap-4"><div><label class="text-xs font-bold block mb-1 uppercase tracking-wider" style="color:var(--muted)">Branch</label><select id="mBr" class="inp"><option value="-1">ALL STORES</option></select></div><div><label class="text-xs font-bold block mb-1 uppercase tracking-wider" style="color:var(--muted)">Stock Value</label><input type="number" id="mVal" class="inp" placeholder="Current Stock"></div></div><button onclick="saveManual()" class="btn btn-s w-full py-3 mt-1 text-sm">Save Stock Entry</button></div><div class="p-4 text-center" style="border-top:1px solid var(--border)"><button onclick="closeManM()" style="color:var(--muted);cursor:pointer;background:none;border:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Cancel</button></div></div></div>
+
+<div id="stM" class="mo hd"><div class="mc mc-lg"><div class="p-7 flex justify-between items-center" style="background:var(--accent);color:#fff"><h2 id="stMN" class="text-lg font-bold"></h2><button onclick="closeStM()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:26px;opacity:.8">&times;</button></div><div id="stMB" class="p-7 space-y-4 max-h-[80vh] overflow-y-auto"></div><div class="p-4 flex gap-2 np" style="border-top:1px solid var(--border)"><button onclick="exportBr()" class="btn btn-i w-full">Export</button><button onclick="closeStM()" class="btn btn-o w-full">Close</button></div></div></div>
+
+<div id="upPreviewM" class="mo hd">
+    <div class="mc" style="max-width:750px">
+        <div class="p-6" style="background:linear-gradient(135deg,var(--accent),var(--accentD));color:#fff">
+            <h2 class="text-lg font-bold">Upload Preview</h2>
+            <p class="text-xs opacity-80 mt-1">Verify column mapping before applying</p>
+        </div>
+        <div class="p-6" id="upPreviewBody"></div>
+        <div class="p-4 flex gap-2" style="border-top:1px solid var(--border)">
+            <button onclick="applyUpload()" class="btn btn-p flex-1 py-3">Apply Upload</button>
+            <button onclick="cancelUpload()" class="btn btn-o flex-1 py-3">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast"></div>
+<div id="dbg"></div>
+
+<script>
+/* ===== STATE ===== */
+var stores=[], inv=[], mChart=null, curBrI=null, bChart=null, pChart=null;
+var API='https://script.google.com/macros/s/AKfycbxrP-EDOrKMTbOnQJS15URpk55GEOnPUjcJnfpr6MC7xxU0d3wAsf4L0fll4FyZCFAyew/exec';
+var cOn=false, isSy=false, cCon=false;
+
+/* Temp storage for upload preview data */
+var pendingUpload = null;
+
+/* ===== HELPERS ===== */
+function dbg(m){var d=document.getElementById('dbg');d.style.display='block';d.innerHTML+=m+'<br>';d.scrollTop=d.scrollHeight;}
+
+function updSync(){
+    var d=document.getElementById('syncD'),l=document.getElementById('syncL'),b=document.getElementById('cBadge');
+    if(isSy){d.className='sd sd-sy';l.textContent='Syncing...';b.classList.add('hd');}
+    else if(cCon){d.className='sd sd-on';l.textContent='Sheet Live';b.classList.remove('hd');}
+    else{d.className='sd sd-off';l.textContent='Offline';b.classList.add('hd');}
+    updLock(cCon);
+}
+
+function updLock(locked){
+    var c=document.getElementById('addBrC'),t=document.getElementById('lockTxt');if(!c)return;
+    var i=c.querySelector('input'),b=c.querySelector('button'),h=c.querySelector('h3');
+    if(locked){c.style.opacity='.55';c.style.pointerEvents='none';i.disabled=true;b.disabled=true;h.innerHTML='Add Branch <span class="bg bc">SHEET</span>';t.innerHTML='<strong>Cloud connected.</strong> Only stock values editable from here.';}
+    else{c.style.opacity='1';c.style.pointerEvents='auto';i.disabled=false;b.disabled=false;h.innerHTML='Add Branch';t.innerHTML='Targets, Categories & MRP ranges are managed in Google Sheet. Only stock values are editable here.';}
+}
+
+async function gFetch(url,opts){
+    dbg('Fetch: '+url.substring(0,90)+'...');
+    var o=Object.assign({redirect:'follow',headers:{'Accept':'application/json','Content-Type':'text/plain'}},opts||{});
+    var r=await fetch(url,o);dbg('Status: '+r.status);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var t=await r.text();
+    if(t.indexOf('<!DOCTYPE')>=0||t.indexOf('<html')>=0)throw new Error('Got HTML - check deploy settings');
+    return JSON.parse(t);
+}
+
+/* ===== ROBUST CELL VALUE READER ===== */
+function getCV(c){
+    if(!c) return null;
+    try {
+        /* Prefer computed result (handles formulas) */
+        var v = (c.result !== undefined && c.result !== null) ? c.result : c.value;
+        if(v === null || v === undefined) return null;
+        if(typeof v === 'number') return v;
+        if(v instanceof Date) return null;
+        if(typeof v === 'boolean') return null;
+        if(typeof v === 'object'){
+            if(v.richText){
+                var txt = v.richText.map(function(r){return r.text||'';}).join('').trim();
+                return txt || null;
+            }
+            if(v.text) return v.text.trim() || null;
+            if(v.formula !== undefined){
+                /* Formula cell with no computed result */
+                return (v.result !== undefined && v.result !== null) ? v.result : null;
+            }
+            return null;
+        }
+        if(typeof v === 'string'){
+            v = v.replace(/[\u200B\u200C\u200D\uFEFF]/g, ''); /* strip zero-width chars */
+            v = v.trim();
+            return v === '' ? null : v;
+        }
+        return v;
+    } catch(e){ return null; }
+}
+
+function pN(v){
+    if(v === null || v === undefined || v === '') return 0;
+    if(typeof v === 'number') return isNaN(v) ? 0 : Math.round(v);
+    var s = String(v).replace(/[^0-9.\-]/g, '');
+    var n = parseFloat(s);
+    return isNaN(n) ? 0 : Math.round(n);
+}
+
+/* ===== NORMALIZE STRING FOR MATCHING ===== */
+function norm(s){
+    if(!s) return '';
+    return String(s).replace(/[\u200B\u200C\u200D\uFEFF]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'').trim();
+}
+
+/* ===== CLOUD SYNC ===== */
+async function syncLoad(){
+    if(!API) return false;
+    try{
+        isSy=true; updSync();
+        var d = await gFetch(API+'?action=load&t='+Date.now());
+        if(d.error) throw new Error(d.error);
+        stores = d.stores || [];
+        inv = d.inventory || [];
+        initPA(inv); enforceDI();
+        try{localStorage.setItem('sgi',JSON.stringify(inv));localStorage.setItem('sgs',JSON.stringify(stores));}catch(e){}
+        cOn=true; cCon=true;
+        if(!d.hasTargets){dbg('No Targets sheet - creating...');try{await initTgt();}catch(e2){dbg('initTgt: '+e2.message);}}
+        dbg('OK: '+stores.length+' stores, '+inv.length+' cats');
+        return true;
+    }catch(e){dbg('syncLoad: '+e.message); cOn=false; cCon=false; return false;}
+    finally{isSy=false; updSync();}
+}
+
+async function syncSave(){
+    if(!API) return false;
+    try{
+        isSy=true; updSync(); enforceDI();
+        var sp = inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
+        var d = await gFetch(API,{method:'POST',body:JSON.stringify({action:'saveStock',stores:stores,inventory:sp})});
+        if(d.error) throw new Error(d.error);
+        cOn=true; dbg('Saved '+(d.cellsUpdated||0)+' cells.'); return true;
+    }catch(e){dbg('syncSave: '+e.message); cOn=false; return false;}
+    finally{isSy=false; updSync();}
+}
+
+async function initTgt(){
+    enforceDI();
+    var sp = inv.map(function(c){return{name:c.name,mrpDetails:c.mrpDetails.map(function(m){return{range:m.range,present:[...m.present]};})};});
+    var d = await gFetch(API,{method:'POST',body:JSON.stringify({action:'initTargets',stores:stores,inventory:sp})});
+    if(d.error) throw new Error(d.error); return true;
+}
+
+async function resetTargets(){
+    if(!confirm('Set current stock as new baseline targets?\n\nThis OVERWRITES the Targets sheet.\nAll shortage calculations will reset.')) return;
+    try{isSy=true;updSync();await initTgt();showToast('Targets reset - pulling...');var ok=await syncLoad();if(ok)render();}
+    catch(e){showToast('Failed: '+e.message);}
+    finally{isSy=false;updSync();}
+}
+
+function openCloudM(){document.getElementById('apiInp').value=API;document.getElementById('cloudM').classList.remove('hd');}
+function closeCloudM(){document.getElementById('cloudM').classList.add('hd');}
+async function doPull(){closeCloudM();showToast('Pulling...');var ok=await syncLoad();if(ok){render();showToast('Loaded '+stores.length+' stores, '+inv.length+' categories');}else showToast('Pull failed - check debug log');}
+async function doPush(){closeCloudM();showToast('Pushing...');var ok=await syncSave();showToast(ok?'Saved to Sheet':'Push failed');}
+
+/* ===== DATA INTEGRITY ===== */
+function sanA(a,l){if(!Array.isArray(a))return Array(l).fill(0);var c=[];for(var i=0;i<l;i++)c.push(typeof a[i]==='number'&&!isNaN(a[i])?a[i]:0);return c;}
+
+function initPA(d){
+    if(!d||!Array.isArray(d)) return;
+    var l=stores.length;
+    d.forEach(function(c){
+        c.present=sanA(c.present,l); c.base=sanA(c.base,l);
+        if(Array.isArray(c.mrpDetails)){
+            c.mrpDetails=c.mrpDetails.filter(function(m){return m&&typeof m.range==='string'&&m.range.trim()!=='';});
+            c.mrpDetails.forEach(function(m){m.base=sanA(m.base,l);m.present=sanA(m.present,l);});
+        }else{c.mrpDetails=[];}
+    });
+}
+
+function enforceDI(){
+    var l=stores.length;
+    if(!Array.isArray(inv)) inv=[];
+    inv=inv.filter(function(c){return c&&typeof c.name==='string'&&c.name.trim()!=='';});
+    inv.forEach(function(c){
+        if(!Array.isArray(c.mrpDetails)) c.mrpDetails=[];
+        c.mrpDetails=c.mrpDetails.filter(function(m){return m&&typeof m.range==='string'&&m.range.trim()!=='';});
+        c.mrpDetails.forEach(function(m){m.base=sanA(m.base,l);m.present=sanA(m.present,l);});
+        if(c.mrpDetails.length>0){
+            c.base=Array(l).fill(0); c.present=Array(l).fill(0);
+            c.mrpDetails.forEach(function(m){
+                m.base.forEach(function(v,i){c.base[i]+=v||0;});
+                m.present.forEach(function(v,i){c.present[i]+=v||0;});
+            });
+        }else{c.base=sanA(c.base,l);c.present=sanA(c.present,l);}
+    });
+}
+
+function showToast(m){var x=document.getElementById("toast");x.textContent=m;x.className="show";setTimeout(function(){x.className="";},3500);}
+
+async function saveData(){
+    enforceDI();
+    try{localStorage.setItem('sgi',JSON.stringify(inv));localStorage.setItem('sgs',JSON.stringify(stores));}catch(e){}
+    if(cCon){var ok=await syncSave();showToast(ok?'Saved to Sheet':'Saved locally');}else{showToast('Saved locally');}
+}
+
+function loadLocal(){
+    var i=localStorage.getItem('sgi'),s=localStorage.getItem('sgs');
+    if(i&&s){try{inv=JSON.parse(i);stores=JSON.parse(s);if(!Array.isArray(stores))stores=[];initPA(inv);enforceDI();}catch(e){inv=[];stores=[];}}
+    else{inv=[];stores=[];}
+    cCon=false;
+}
+
+function clearStock(){
+    if(!confirm('Set ALL stock to 0?')) return;
+    inv.forEach(function(c){
+        c.present=Array(stores.length).fill(0);
+        c.mrpDetails.forEach(function(m){m.present=Array(stores.length).fill(0);});
+    });
+    enforceDI(); saveData(); render();
+}
+
+/* ===== RENDER ===== */
+function render(){enforceDI();renderMatrix();updUI();}
+
+function updUI(){
+    var co='',bo='',gT=0,gS=0;
+    inv.forEach(function(c,i){
+        co+='<option value="'+i+'">'+c.name+'</option>';
+        c.base.forEach(function(v,s){gT+=v||0;gS+=c.present[s]||0;});
+    });
+    stores.forEach(function(s,i){bo+='<option value="'+i+'">'+s+'</option>';});
+    document.getElementById('sTB').textContent=gT.toLocaleString();
+    document.getElementById('sTS').textContent=gS.toLocaleString();
+    document.getElementById('sNS').textContent=Math.max(0,gT-gS).toLocaleString();
+    document.getElementById('sEF').textContent=(gT>0?Math.round((gS/gT)*100):0)+'%';
+    document.getElementById('nCats').textContent=inv.length;
+    document.getElementById('cFilter').innerHTML=co;
+    document.getElementById('mBr').innerHTML='<option value="-1">ALL STORES</option>'+bo;
+    if(!document.getElementById('tabAnalytics').classList.contains('hd'))refreshCharts();
+}
+
+function renderMatrix(){
+    var th=document.getElementById('mHead'),tb=document.getElementById('mBody');
+    var hh='<tr><th class="sk1 cc">Category</th><th class="sk2 cm">MRP</th>';
+    stores.forEach(function(s,idx){
+        var f=(idx===0),la=(idx===stores.length-1);
+        var bc='thsc thbs cd';if(!f)bc+=' thsep';
+        hh+='<th class="'+bc+'"><div class="thsn">'+s+'</div><div class="thss">BS</div></th>';
+        var cc2='thsc thcs cd';if(la)cc2+=' thcsl';
+        hh+='<th class="'+cc2+'"><div class="thsg"></div><div class="thss">CS</div></th>';
+    });
+    hh+='<th class="ska">AI</th></tr>';th.innerHTML=hh;
+    var body='';
+    inv.forEach(function(c,ci){
+        if(c.mrpDetails.length>0){
+            c.mrpDetails.forEach(function(m,mi){
+                var r='<tr><td class="sk1 cc" style="font-size:10px;color:var(--muted)">'+c.name+'</td><td class="sk2 cm"><span class="bg bi">'+m.range+'</span></td>';
+                var act='',su=[],sh=[];
+                stores.forEach(function(sn,si){
+                    var t=m.base[si]||0,s=m.present[si]||0;
+                    r+='<td class="cd"><span class="nt">'+t+'</span></td>';
+                    var cl=s>t?'ss':(s<t?'sh':'se');
+                    r+='<td class="cd" onclick="editSt('+ci+','+mi+','+si+')"><span class="ns '+cl+'">'+s+'</span></td>';
+                    var d=s-t;if(d>0)su.push({n:sn,q:d});if(d<0)sh.push({n:sn,q:Math.abs(d)});
+                });
+                if(su.length&&sh.length){var dn=su.sort(function(a,b){return b.q-a.q;})[0],rc=sh.sort(function(a,b){return b.q-a.q;})[0],q=Math.min(dn.q,rc.q);act='<span class="bg bi">Move '+q+' '+dn.n+'&rarr;'+rc.n+'</span>';}
+                else if(sh.length){act='<span class="bg bd">Buy '+sh.reduce(function(a,b){return a+b.q;},0)+'</span>';}
+                else if(su.length){act='<span class="bg bw">Surplus</span>';}
+                r+='<td class="ska">'+act+'</td></tr>';body+=r;
+            });
+        }
+        var tr='<tr class="trow"><td class="sk1 cc" style="font-weight:800">'+c.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';
+        stores.forEach(function(_,si){
+            var t=c.base[si]||0,s=c.present[si]||0;
+            tr+='<td class="cd"><span class="nt">'+t+'</span></td>';
+            var cl=s>t?'ss':(s<t?'sh':'se');
+            tr+='<td class="cd" onclick="openStM('+si+')" style="cursor:pointer"><span class="ns '+cl+'">'+s+'</span></td>';
+        });
+        tr+='<td class="ska"></td></tr>';body+=tr;
+    });
+    tb.innerHTML=body;
+}
+
+function editSt(ci,mi,si){
+    var v=inv[ci].mrpDetails[mi].present[si]||0;
+    var n=prompt("New Stock Value:",v);if(n===null) return;
+    var num=parseInt(n);if(isNaN(num)||num<0) return;
+    inv[ci].mrpDetails[mi].present[si]=num; enforceDI(); saveData(); render();
+}
+
+function refreshCharts(){
+    var sel=document.getElementById('cFilter');if(!sel) return;
+    var ci=parseInt(sel.value)||0;var cat=inv[ci];if(!cat) return;
+    if(mChart) mChart.destroy();
+    var dk=document.body.classList.contains('dark');
+    var tc=dk?'#e6f1ff':'#102a43',gl=dk?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)';
+    mChart=new Chart(document.getElementById('mainC'),{type:'bar',data:{labels:stores,datasets:[{label:'Target',data:cat.base.slice(),backgroundColor:dk?'rgba(100,255,218,.25)':'rgba(0,184,148,.2)',borderColor:dk?'#64ffda':'#00b894',borderWidth:2,borderRadius:4},{label:'Stock',data:cat.present.slice(),backgroundColor:dk?'rgba(78,168,222,.25)':'rgba(9,132,227,.2)',borderColor:dk?'#7dd3fc':'#0984e3',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:tc,font:{weight:'bold'}}}},scales:{x:{grid:{color:gl},ticks:{color:tc,font:{weight:'bold'}}},y:{beginAtZero:true,grid:{color:gl},ticks:{color:tc}}}}});
+}
+
+function swTab(t,btn){
+    document.querySelectorAll('.tc').forEach(function(e){e.classList.add('hd');});
+    document.querySelectorAll('.tab').forEach(function(e){e.classList.remove('on');});
+    document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.remove('hd');
+    if(btn) btn.classList.add('on');
+    if(t==='analytics') refreshCharts();
+}
+
+/* ========================================================
+   UPLOAD STOCK — FULLY REWRITTEN FOR ACCURACY
+   ======================================================== */
+
+/* Headers to ignore when scanning for store names */
+var IGNORE_HEADERS = [
+    'CATEGORY','CATEGORIES','ITEM','ITEMS','PRODUCT','PRODUCTS',
+    'MRP','MRP/SIZE','MRP SIZE','MRPSIZE','SIZE','SIZES',
+    'TOTAL','GRAND TOTAL','GRANDTOTAL','SUBTOTAL','SUB TOTAL',
+    'SR NO','SRNO','SR. NO','S.NO','SNO','S NO','SL NO','SLNO',
+    'REMARKS','REMARK','NOTE','NOTES','COMMENT',
+    'SN','SERIAL','ROW','INDEX','NO','#','NUM'
+];
+
+function isIgnoredHeader(val){
+    var n = norm(val);
+    for(var i=0;i<IGNORE_HEADERS.length;i++){
+        if(n === norm(IGNORE_HEADERS[i])) return true;
+    }
+    return false;
+}
+
+async function handleUpload(e){
+    var f = e.target.files[0];
+    if(!f) return;
+    e.target.value = '';
+
+    if(stores.length === 0){
+        alert('No stores configured!\n\nConnect to Google Sheet first (click the sync indicator),\nor the sheet must have a Stores tab.');
+        return;
+    }
+    if(inv.length === 0){
+        alert('No categories configured!\n\nConnect to Google Sheet first, or upload will have nothing to match against.');
+        return;
+    }
+
+    try{
+        var d = new Uint8Array(await f.arrayBuffer());
+        var wb = new ExcelJS.Workbook();
+        await wb.xlsx.load(d);
+
+        /* Try first worksheet, or find one that looks like inventory */
+        var ws = wb.worksheets[0];
+        if(!ws) return alert("No worksheet found in file.");
+
+        /* ===== PHASE 1: Scan header row to build store mapping ===== */
+        var headerRow = ws.getRow(1);
+        var storeMap = [];      /* {excelCol, storeIdx, storeName} */
+        var unmatchedHdrs = [];  /* headers that didn't match any store */
+        var catCol = -1;         /* which column has "CATEGORY" header */
+        var mrpCol = -1;         /* which column has "MRP" header */
+        var maxColFound = 0;
+
+        headerRow.eachCell({includeEmpty: false}, function(cell, col){
+            if(col > maxColFound) maxColFound = col;
+            var val = getCV(cell);
+            if(val === null) return;
+            var upper = String(val).toUpperCase().trim();
+
+            /* Detect category column */
+            if(catCol < 0 && (upper === 'CATEGORY' || upper === 'CATEGORIES' || upper === 'ITEM' || upper === 'PRODUCT' || upper === 'NAME')){
+                catCol = col; return;
+            }
+            /* Detect MRP column */
+            if(mrpCol < 0 && (upper === 'MRP' || upper === 'MRP/SIZE' || upper === 'MRP SIZE' || upper === 'SIZE' || upper === 'SIZES')){
+                mrpCol = col; return;
+            }
+            /* Skip known non-store headers */
+            if(isIgnoredHeader(upper)) return;
+
+            /* Try to match this header as a store name */
+            var foundIdx = -1;
+
+            /* 1) Exact normalized match */
+            var normHdr = norm(upper);
+            for(var si=0; si<stores.length; si++){
+                if(norm(stores[si]) === normHdr){ foundIdx=si; break; }
+            }
+
+            /* 2) Contains match (header contains store name or vice versa) */
+            if(foundIdx === -1){
+                for(var si=0; si<stores.length; si++){
+                    var ns = norm(stores[si]);
+                    if(ns.length >= 2 && (normHdr.indexOf(ns) >= 0 || ns.indexOf(normHdr) >= 0)){
+                        foundIdx=si; break;
+                    }
+                }
+            }
+
+            if(foundIdx >= 0){
+                /* Check for duplicate store mapping */
+                var dup = false;
+                for(var k=0;k<storeMap.length;k++){
+                    if(storeMap[k].storeIdx === foundIdx){ dup=true; break; }
+                }
+                if(!dup) storeMap.push({excelCol:col, storeIdx:foundIdx, storeName:stores[foundIdx]});
+            }else{
+                unmatchedHdrs.push(String(val).trim());
+            }
+        });
+
+        /* If category/MRP columns not detected, assume standard layout: A=Category, B=MRP */
+        if(catCol < 0) catCol = 1;
+        if(mrpCol < 0) mrpCol = 2;
+
+        /* Fallback: if NO stores matched by name, try positional matching from column C onwards */
+        if(storeMap.length === 0){
+            dbg('No name matches - trying positional from col 3...');
+            var posStart = Math.max(catCol, mrpCol) + 1;
+            for(var si=0; si<stores.length; si++){
+                var tryCol = posStart + si;
+                if(tryCol <= maxColFound + 5){
+                    storeMap.push({excelCol:tryCol, storeIdx:si, storeName:stores[si]});
+                }
+            }
+        }
+
+        if(storeMap.length === 0){
+            var msg = "No store columns could be identified!\n\n";
+            msg += "File headers found: " + unmatchedHdrs.join(', ') + "\n\n";
+            msg += "Expected store names:\n" + stores.join('\n') + "\n\n";
+            msg += "Expected format:\n  Col A = Category\n  Col B = MRP/Size\n  Col C onwards = Store names (must match exactly)";
+            return alert(msg);
+        }
+
+        /* ===== PHASE 2: Pre-scan data rows to count matches ===== */
+        var dataRows = [];  /* {rowNum, catRaw, mrpRaw, catNorm, mrpNorm, cells:{storeIdx: value}} */
+        var skipLog = [];
+        var totalDataRows = 0;
+
+        var rowCount = ws.rowCount;
+        for(var rn=2; rn<=rowCount; rn++){
+            var row = ws.getRow(rn);
+            if(!row) continue;
+            var hasAnyContent = false;
+            row.eachCell({includeEmpty:false},function(){hasAnyContent=true;});
+            if(!hasAnyContent) continue;
+
+            totalDataRows++;
+            var catRaw = getCV(row.getCell(catCol));
+            var mrpRaw = getCV(row.getCell(mrpCol));
+
+            if(catRaw === null) continue;
+            var cn = String(catRaw).trim();
+            if(!cn) continue;
+            var catNorm = norm(cn);
+
+            /* Skip total/summary rows */
+            if(catNorm === 'TOTAL' || catNorm === 'GRANDTOTAL') continue;
+
+            var mnRaw = (mrpRaw !== null) ? String(mrpRaw).trim() : '';
+            var mrpNorm = norm(mnRaw);
+            if(mrpNorm === 'TOTAL' || mnRaw === '-' || mnRaw === '\u2014' || mrpNorm === 'NA' || mrpNorm === 'N/A' || mrpNorm === '') mnRaw = '';
+
+            /* Find category */
+            var catIdx = -1;
+            for(var x=0;x<inv.length;x++){
+                if(norm(inv[x].name) === catNorm){catIdx=x; break;}
+            }
+            if(catIdx === -1){
+                skipLog.push('R'+rn+': Category "'+cn+'" not found');
+                continue;
+            }
+
+            var cat = inv[catIdx];
+
+            /* If MRP given, verify it exists */
+            var mrpIdx = -1;
+            if(mnRaw !== '' && cat.mrpDetails.length > 0){
+                for(var y=0;y<cat.mrpDetails.length;y++){
+                    if(norm(cat.mrpDetails[y].range) === mrpNorm){mrpIdx=y; break;}
+                }
+                if(mrpIdx === -1){
+                    skipLog.push('R'+rn+': MRP "'+mnRaw+'" not in '+cn);
+                    continue;
+                }
+            }
+
+            /* Read cell values for each matched store column */
+            var cells = {};
+            for(var sm=0;sm<storeMap.length;sm++){
+                var val = getCV(row.getCell(storeMap[sm].excelCol));
+                cells[storeMap[sm].storeIdx] = val;
+            }
+
+            dataRows.push({
+                rowNum: rn,
+                catRaw: cn,
+                mrpRaw: mnRaw || '(no MRP)',
+                catIdx: catIdx,
+                mrpIdx: mrpIdx,
+                cells: cells
+            });
+        }
+
+        /* ===== PHASE 3: Show preview modal ===== */
+        var missingStores = [];
+        for(var si=0;si<stores.length;si++){
+            var found = false;
+            for(var k=0;k<storeMap.length;k++){
+                if(storeMap[k].storeIdx===si){found=true;break;}
+            }
+            if(!found) missingStores.push(stores[si]);
+        }
+
+        pendingUpload = {storeMap:storeMap, dataRows:dataRows};
+
+        var html = '';
+
+        /* Store mapping table */
+        html += '<div style="margin-bottom:16px">';
+        html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Store Column Mapping ('+storeMap.length+'/'+stores.length+' matched)</p>';
+        html += '<div class="up-preview"><table><thead><tr><th>Excel Col</th><th>Header Found</th><th>&rarr;</th><th>Internal Store</th><th>Status</th></tr></thead><tbody>';
+        for(var k=0;k<storeMap.length;k++){
+            var m = storeMap[k];
+            html += '<tr><td class="mono">'+String.fromCharCode(64+m.excelCol)+'</td><td>'+(m.headerFound||'positional')+'</td><td>&rarr;</td><td class="match">'+m.storeName+'</td><td class="match">MATCH</td></tr>';
+        }
+        for(var i=0;i<missingStores.length;i++){
+            html += '<tr><td>-</td><td>-</td><td>&rarr;</td><td>'+missingStores[i]+'</td><td class="nomatch">NO COLUMN</td></tr>';
+        }
+        if(unmatchedHdrs.length>0){
+            html += '<tr><td colspan="5" style="font-style:italic;color:var(--muted);font-size:9px">Ignored columns: '+unmatchedHdrs.join(', ')+'</td></tr>';
+        }
+        html += '</tbody></table></div></div>';
+
+        /* Data rows preview */
+        html += '<div style="margin-bottom:16px">';
+        html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--muted)">Data Rows Preview ('+dataRows.length+' valid of '+totalDataRows+' scanned)</p>';
+        html += '<div class="up-preview"><table><thead><tr><th>Row</th><th>Category</th><th>MRP/Size</th>';
+        for(var k=0;k<storeMap.length;k++){
+            html += '<th>'+storeMap[k].storeName+'</th>';
+        }
+        html += '</tr></thead><tbody>';
+
+        var showMax = Math.min(dataRows.length, 50);
+        for(var i=0;i<showMax;i++){
+            var dr = dataRows[i];
+            html += '<tr><td class="mono" style="color:var(--muted)">R'+dr.rowNum+'</td>';
+            html += '<td style="font-weight:600">'+dr.catRaw+'</td>';
+            html += '<td><span class="bg bi">'+dr.mrpRaw+'</span></td>';
+            for(var k=0;k<storeMap.length;k++){
+                var val = dr.cells[storeMap[k].storeIdx];
+                var display = (val !== null && val !== undefined) ? pN(val) : '0';
+                html += '<td class="mono" style="font-weight:700">'+display+'</td>';
+            }
+            html += '</tr>';
+        }
+        if(dataRows.length > showMax){
+            html += '<tr><td colspan="'+(3+storeMap.length)+'" style="text-align:center;color:var(--muted);font-style:italic">... and '+(dataRows.length-showMax)+' more rows</td></tr>';
+        }
+        html += '</tbody></table></div></div>';
+
+        /* Skip log */
+        if(skipLog.length > 0){
+            html += '<div style="margin-bottom:8px">';
+            html += '<p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--danger)">Skipped Rows ('+skipLog.length+')</p>';
+            html += '<div style="max-height:80px;overflow:auto;font-size:10px;color:var(--muted);line-height:1.6">';
+            var showSkip = Math.min(skipLog.length, 15);
+            for(var i=0;i<showSkip;i++) html += skipLog[i]+'<br>';
+            if(skipLog.length > showSkip) html += '... and '+(skipLog.length-showSkip)+' more';
+            html += '</div></div>';
+        }
+
+        /* Summary */
+        html += '<div style="background:var(--bg);border-radius:10px;padding:12px;display:flex;gap:20px;flex-wrap:wrap">';
+        html += '<div><span class="fc-l" style="color:var(--muted)">Valid Rows</span><div class="fc-v" style="color:var(--accent)">'+dataRows.length+'</div></div>';
+        html += '<div><span class="fc-l" style="color:var(--muted)">Stores Matched</span><div class="fc-v" style="color:var(--info)">'+storeMap.length+'/'+stores.length+'</div></div>';
+        html += '<div><span class="fc-l" style="color:var(--muted)">Skipped</span><div class="fc-v" style="color:var(--danger)">'+skipLog.length+'</div></div>';
+        html += '</div>';
+
+        document.getElementById('upPreviewBody').innerHTML = html;
+        document.getElementById('upPreviewM').classList.remove('hd');
+
+        dbg('Upload preview: '+dataRows.length+' valid, '+skipLog.length+' skipped, '+storeMap.length+'/'+stores.length+' stores');
+
+    }catch(err){
+        alert("Upload Error: "+err.message);
+        dbg('Upload error: '+err.message+'\n'+(err.stack||''));
+    }
+}
+
+/* Apply the pending upload */
+function applyUpload(){
+    if(!pendingUpload) return;
+    var storeMap = pendingUpload.storeMap;
+    var dataRows = pendingUpload.dataRows;
+    var updated = 0;
+
+    for(var i=0;i<dataRows.length;i++){
+        var dr = dataRows[i];
+        var cat = inv[dr.catIdx];
+
+        if(dr.mrpIdx >= 0){
+            /* Update specific MRP row */
+            for(var k=0;k<storeMap.length;k++){
+                var val = dr.cells[storeMap[k].storeIdx];
+                cat.mrpDetails[dr.mrpIdx].present[storeMap[k].storeIdx] = pN(val);
+            }
+        }else{
+            /* Update category-level stock (no MRP details) */
+            for(var k=0;k<storeMap.length;k++){
+                var val = dr.cells[storeMap[k].storeIdx];
+                cat.present[storeMap[k].storeIdx] = pN(val);
+            }
+        }
+        updated++;
+    }
+
+    enforceDI();
+    saveData();
+    render();
+
+    pendingUpload = null;
+    document.getElementById('upPreviewM').classList.add('hd');
+    showToast(updated + ' stock values updated across ' + storeMap.length + ' stores');
+    dbg('Applied: '+updated+' rows updated');
+}
+
+function cancelUpload(){
+    pendingUpload = null;
+    document.getElementById('upPreviewM').classList.add('hd');
+}
+
+/* ===== TRANSFER LOGIC ===== */
+function calcTF(){
+    var all=[];
+    for(var c=0;c<inv.length;c++){
+        var cat=inv[c];
+        (function(cn,ml,bt,pr){
+            var su=[],sh=[];
+            for(var i=0;i<stores.length;i++){var g=(pr[i]||0)-(bt[i]||0);if(g>0)su.push({s:stores[i],q:g});else if(g<0)sh.push({s:stores[i],q:Math.abs(g)});}
+            su.sort(function(a,b){return b.q-a.q;});sh.sort(function(a,b){return b.q-a.q;});
+            for(var si=0;si<sh.length;si++){var need=sh[si].q;for(var pi=0;pi<su.length&&need>0;pi++){if(su[pi].q<=0)continue;var mv=Math.min(need,su[pi].q);if(mv>0){all.push({cat:cn,mrp:ml,from:su[pi].s,to:sh[si].s,qty:mv});need-=mv;su[pi].q-=mv;}}}
+        })(cat.name,cat.mrpDetails.length>0?null:'TOTAL',cat.base,cat.present);
+        if(cat.mrpDetails.length>0){
+            for(var m=0;m<cat.mrpDetails.length;m++){
+                (function(cn2,ml2,bt2,pr2){
+                    var su2=[],sh2=[];
+                    for(var i2=0;i2<stores.length;i2++){var g2=(pr2[i2]||0)-(bt2[i2]||0);if(g2>0)su2.push({s:stores[i2],q:g2});else if(g2<0)sh2.push({s:stores[i2],q:Math.abs(g2)});}
+                    su2.sort(function(a,b){return b.q-a.q;});sh2.sort(function(a,b){return b.q-a.q;});
+                    for(var si2=0;si2<sh2.length;si2++){var need2=sh2[si2].q;for(var pi2=0;pi2<su2.length&&need2>0;pi2++){if(su2[pi2].q<=0)continue;var mv2=Math.min(need2,su2[pi2].q);if(mv2>0){all.push({cat:cn2,mrp:ml2,from:su2[pi2].s,to:sh2[si2].s,qty:mv2});need2-=mv2;su2[pi2].q-=mv2;}}}
+                })(cat.name,cat.mrpDetails[m].range,cat.mrpDetails[m].base,cat.mrpDetails[m].present);
+            }
+        }
+    }
+    return all;
+}
+
+function buildTF(){
+    var tr=calcTF(),rs={},ck={};
+    for(var i=0;i<tr.length;i++){rs[tr[i].from+'\u2192'+tr[i].to]=true;ck[tr[i].cat+'|||'+tr[i].mrp]=true;}
+    var cc=0;for(var k in ck)cc++;var rc=0;for(var k in rs)rc++;
+    var tq=0;for(var i=0;i<tr.length;i++)tq+=tr[i].qty;
+    return{tr:tr,tq:tq,cc:cc,rc:rc};
+}
+
+function openTFR(){document.getElementById('dashV').classList.add('hd');document.getElementById('tfV').classList.remove('hd');renderTF();}
+function closeTFR(){document.getElementById('tfV').classList.add('hd');document.getElementById('dashV').classList.remove('hd');}
+
+function renderTF(){
+    var d=buildTF(),ns=stores.length,trs=d.tr;
+    document.getElementById('tfT').textContent=d.tq.toLocaleString();
+    document.getElementById('tfS').textContent=d.tq.toLocaleString();
+    document.getElementById('tfR').textContent=d.rc;
+    document.getElementById('tfC').textContent=d.cc;
+    var sd={};for(var i=0;i<ns;i++)sd[stores[i]]={out:0,inc:0};
+    for(var i=0;i<trs.length;i++){sd[trs[i].from].out+=trs[i].qty;sd[trs[i].to].inc+=trs[i].qty;}
+    var sh='';
+    for(var i=0;i<ns;i++){
+        var s=stores[i],x=sd[s],net=x.inc-x.out,bc=net>0?'var(--info)':(net<0?'var(--danger)':'var(--border)'),nc=net>0?'+'+net:(net<0?''+net:'0'),ncl=net>0?'var(--info)':(net<0?'var(--danger)':'var(--muted)'),role=net>0?'RECV':(net<0?'SEND':'BAL'),rbg=net>0?'bi':(net<0?'bd':'bw');
+        sh+='<div class="fc" style="border-left:4px solid '+bc+'"><div class="flex justify-between items-center mb-2"><span class="fc-n">'+s+'</span><span class="bg '+rbg+'" style="font-size:8px">'+role+'</span></div><div class="grid grid-cols-3 gap-1 text-center"><div><div class="fc-l" style="color:var(--danger)">OUT</div><div class="fc-v mono" style="color:var(--danger);font-size:13px">'+x.out+'</div></div><div><div class="fc-l" style="color:var(--info)">IN</div><div class="fc-v mono" style="color:var(--info);font-size:13px">'+x.inc+'</div></div><div><div class="fc-l" style="color:var(--muted)">NET</div><div class="fc-v mono" style="color:'+ncl+';font-size:13px">'+nc+'</div></div></div></div>';
+    }
+    document.getElementById('tfSum').innerHTML=sh;
+    var rm={};
+    for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
+    var routes=[];for(var k in rm){var tot=0;for(var j=0;j<rm[k].items.length;j++)tot+=rm[k].items[j].qty;routes.push({from:rm[k].from,to:rm[k].to,items:rm[k].items,total:tot});}
+    routes.sort(function(a,b){return b.total-a.total;});
+    document.getElementById('tfH').innerHTML='<tr><th style="width:150px;text-align:left;padding-left:18px">FROM</th><th style="width:30px"></th><th style="width:150px">TO</th><th style="text-align:left;padding-left:14px;min-width:200px">CATEGORY</th><th style="width:130px">MRP</th><th style="width:90px">QTY</th></tr>';
+    var bh='';
+    if(routes.length===0){bh='<tr><td colspan="6" style="text-align:center;padding:50px 18px;border:none;background:transparent"><p style="font-size:18px;font-weight:800;color:var(--accent)">NO TRANSFERS REQUIRED</p></td></tr>';}
+    else{
+        for(var ri=0;ri<routes.length;ri++){
+            var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});
+            bh+='<tr class="rsep"><td colspan="6" style="display:flex;justify-content:space-between;align-items:center"><span>'+rt.from+' <span class="ra" style="margin:0 6px">\u2192</span> '+rt.to+'</span><span style="font-size:11px;font-weight:600;color:var(--muted)">'+rt.total.toLocaleString()+' items \u00b7 '+rt.items.length+' cat'+(rt.items.length>1?'s':'')+'</span></td></tr>';
+            for(var ii=0;ii<rt.items.length;ii++){
+                var it=rt.items[ii],f=(ii===0);
+                bh+='<tr><td style="text-align:left;padding-left:18px;'+(f?'font-weight:700;color:var(--danger)':'color:var(--muted);font-size:10px')+'">'+(f?rt.from:'')+'</td><td>'+(f?'<span class="ra">\u2192</span>':'')+'</td><td style="'+(f?'font-weight:700;color:var(--info)':'color:var(--muted);font-size:10px')+'">'+(f?rt.to:'')+'</td><td style="text-align:left;padding-left:14px;font-size:11px;font-weight:600">'+it.cat+'</td><td><span class="bg bi">'+it.mrp+'</span></td><td><span class="tfi">'+it.qty+'</span></td></tr>';
+            }
+            bh+='<tr class="rsub"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:700;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Route Total</td><td><span class="tft">'+rt.total+'</span></td></tr>';
+        }
+        bh+='<tr class="rgrand"><td colspan="5" style="text-align:right;padding-right:18px;font-weight:900;font-size:13px;color:var(--info)">GRAND TOTAL</td><td><span class="tft" style="font-size:17px;border:2px solid var(--info)">'+d.tq+'</span></td></tr>';
+    }
+    document.getElementById('tfB').innerHTML=bh;
+}
+
+/* ===== PURCHASE LOGIC ===== */
+function getSimPurch(){
+    var si=JSON.parse(JSON.stringify(inv));var tr=calcTF();
+    for(var t=0;t<tr.length;t++){
+        var trn=tr[t];var c=null;
+        for(var x=0;x<si.length;x++){if(si[x].name===trn.cat){c=si[x];break;}}
+        if(!c) continue;
+        var fi=stores.indexOf(trn.from),ti=stores.indexOf(trn.to);
+        if(fi<0||ti<0) continue;
+        if(c.mrpDetails.length>0){
+            var m=null;for(var y=0;y<c.mrpDetails.length;y++){if(c.mrpDetails[y].range===trn.mrp){m=c.mrpDetails[y];break;}}
+            if(m){m.present[fi]=Math.max(0,(m.present[fi]||0)-trn.qty);m.present[ti]=(m.present[ti]||0)+trn.qty;}
+        }else{c.present[fi]=Math.max(0,(c.present[fi]||0)-trn.qty);c.present[ti]=(c.present[ti]||0)+trn.qty;}
+    }
+    si.forEach(function(c){
+        if(c.mrpDetails.length>0){c.base.fill(0);c.present.fill(0);c.mrpDetails.forEach(function(m){m.base.forEach(function(v,i){c.base[i]+=v||0;});m.present.forEach(function(v,i){c.present[i]+=v||0;});});}
+    });
+    return si;
+}
+
+function openPUR(){document.getElementById('dashV').classList.add('hd');document.getElementById('prV').classList.remove('hd');renderPUR();}
+function closePUR(){document.getElementById('prV').classList.add('hd');document.getElementById('dashV').classList.remove('hd');}
+
+function renderPUR(){
+    var sd=getSimPurch(),trs=calcTF(),ttf=0;for(var t=0;t<trs.length;t++)ttf+=trs[t].qty;
+    var ns=stores.length;
+    var hh='<tr><th class="sk1 cc">CATEGORY</th><th class="sk2 cm">MRP</th>';
+    for(var s=0;s<ns;s++) hh+='<th class="cs">'+stores[s]+'</th>';
+    hh+='<th class="ska" style="min-width:100px">TOTAL</th></tr>';
+    document.getElementById('prH').innerHTML=hh;
+    var bh='',gps=Array(ns).fill(0),gt=0,ct={},as={},cn2=0,any=false;
+    for(var c=0;c<inv.length;c++){
+        var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];
+        if(hm){for(var m=0;m<cat.mrpDetails.length;m++) ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}
+        else ml.push({range:'TOTAL',base:cat.base,sp:sc.present});
+        var cp=Array(ns).fill(0),ch=false;
+        for(var m=0;m<ml.length;m++){
+            var mr=ml[m],pv=[],rt=0,rhb=false;
+            for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}
+            if(hm&&!rhb) continue;
+            ch=true; any=true; var isT=!hm;
+            var row='<tr class="'+(isT?'trow':'')+'">';
+            if(isT){row+='<td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';}
+            else{row+='<td class="sk1 cc" style="font-size:10px;color:var(--muted)">'+cat.name+'</td><td class="sk2 cm"><span class="bg bi">'+mr.range+'</span></td>';}
+            for(var si=0;si<ns;si++){cp[si]+=pv[si];gps[si]+=pv[si];row+='<td class="cs">'+(pv[si]>0?'<span class="pv">'+pv[si]+'</span>':'<span class="zd">\u2014</span>')+'</td>';}
+            row+='<td class="ska">'+(rt>0?'<span class="'+(isT?'pt':'pv')+'">'+rt+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';
+            bh+=row;
+        }
+        if(hm&&ch){
+            var cT=0;
+            var ctr='<tr class="trow"><td class="sk1 cc" style="font-weight:800">'+cat.name+'</td><td class="sk2 cm"><span class="bg bw">TOTAL</span></td>';
+            for(var si=0;si<ns;si++){cT+=cp[si];ctr+='<td class="cs">'+(cp[si]>0?'<span class="pv" style="font-size:12px">'+cp[si]+'</span>':'<span class="zd">\u2014</span>')+'</td>';}
+            ctr+='<td class="ska">'+(cT>0?'<span class="pt">'+cT+'</span>':'<span class="zd">\u2014</span>')+'</td></tr>';
+            bh+=ctr;
+            if(cT>0){ct[cat.name]=cT;cn2++;}
+        }else if(!hm&&ch){
+            var cT2=0;for(var si=0;si<ns;si++)cT2+=cp[si];
+            if(cT2>0){ct[cat.name]=cT2;cn2++;}
+        }
+        for(var si=0;si<ns;si++){if(cp[si]>0)as[stores[si]]=true;}
+    }
+    gt=0;for(var si=0;si<ns;si++)gt+=gps[si];
+    if(any){
+        bh+='<tr class="pgr"><td class="sk1 cc" style="font-size:13px">GRAND TOTAL</td><td class="sk2 cm"></td>';
+        for(var si=0;si<ns;si++) bh+='<td class="cs"><span class="pt" style="font-size:12px">'+gps[si]+'</span></td>';
+        bh+='<td class="ska"><span class="pt" style="font-size:15px;border:2px solid var(--danger)">'+gt+'</span></td></tr>';
+    }
+    if(!any){bh='<tr><td colspan="'+(3+ns)+'" style="text-align:center;padding:50px 18px;border:none;background:transparent"><p style="font-size:18px;font-weight:800;color:var(--accent)">NO PURCHASES REQUIRED</p><p style="font-size:12px;color:var(--muted);margin-top:10px">All targets met after transfers.</p></td></tr>';}
+    document.getElementById('prB').innerHTML=bh;
+    document.getElementById('prT').textContent=gt.toLocaleString();
+    var asc=0;for(var k in as)asc++;
+    document.getElementById('prS').textContent=asc;
+    document.getElementById('prC').textContent=cn2;
+    document.getElementById('prX').textContent=ttf.toLocaleString();
+    document.getElementById('prBT').textContent=gt.toLocaleString();
+    document.getElementById('prBS').textContent=asc;
+    var sorted=[];for(var k in ct)sorted.push([k,ct[k]]);sorted.sort(function(a,b){return b[1]-a[1];});sorted=sorted.slice(0,5);
+    if(pChart) pChart.destroy();
+    if(sorted.length>0){
+        pChart=new Chart(document.getElementById('purC'),{type:'bar',data:{labels:sorted.map(function(c){return c[0].length>18?c[0].substring(0,16)+'..':c[0];}),datasets:[{label:'Purchase',data:sorted.map(function(c){return c[1];}),backgroundColor:document.body.classList.contains('dark')?'#ff8787':'#d63031',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{display:false}},y:{beginAtZero:true,ticks:{color:document.body.classList.contains('dark')?'#8892b0':'#627d98'},grid:{color:document.body.classList.contains('dark')?'rgba(100,255,218,.06)':'rgba(0,0,0,.06)'}}},indexAxis:'y'}});
+    }
+}
+
+/* ===== EXPORT FUNCTIONS ===== */
+async function exportTF(){
+    var d=buildTF(),trs=d.tr,rm={};
+    for(var i=0;i<trs.length;i++){var t=trs[i],k=t.from+'|||'+t.to;if(!rm[k])rm[k]={from:t.from,to:t.to,items:[]};rm[k].items.push({cat:t.cat,mrp:t.mrp,qty:t.qty});}
+    var routes=[];for(var k in rm){var tot=0;for(var j=0;j<rm[k].items.length;j++)tot+=rm[k].items[j].qty;routes.push({from:rm[k].from,to:rm[k].to,items:rm[k].items,total:tot});}
+    routes.sort(function(a,b){return b.total-a.total;});
+    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Transfer Routes');
+    ws.columns=[{width:25},{width:5},{width:25},{width:35},{width:18},{width:12}];
+    var r=ws.getRow(1);r.getCell(1).value='FROM STORE';r.getCell(3).value='TO STORE';r.getCell(4).value='CATEGORY';r.getCell(5).value='MRP';r.getCell(6).value='MOVE QTY';
+    r.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});
+    r.getCell(1).alignment={horizontal:'left'};r.getCell(4).alignment={horizontal:'left'};
+    var cr=2;
+    for(var ri=0;ri<routes.length;ri++){
+        var rt=routes[ri];rt.items.sort(function(a,b){return b.qty-a.qty;});
+        var hr=ws.getRow(cr);hr.getCell(1).value=rt.from+' \u2192 '+rt.to;ws.mergeCells(cr,1,cr,3);
+        hr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(1).font={bold:true,color:{argb:'FF0077B6'},size:12};hr.getCell(1).alignment={horizontal:'left'};
+        hr.getCell(6).value=rt.total;hr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDBEAFE'}};hr.getCell(6).font={bold:true,color:{argb:'FF0077B6'},size:11};hr.getCell(6).alignment={horizontal:'center'};
+        cr++;
+        for(var ii=0;ii<rt.items.length;ii++){
+            var it=rt.items[ii],ir=ws.getRow(cr);
+            ir.getCell(1).value=ii===0?rt.from:'';ir.getCell(3).value=ii===0?rt.to:'';ir.getCell(4).value=it.cat;ir.getCell(5).value=it.mrp;ir.getCell(6).value=it.qty;
+            ir.getCell(6).font={name:'Consolas',size:10,bold:true,color:{argb:'FF0077B6'}};ir.getCell(6).alignment={horizontal:'center'};ir.getCell(4).alignment={horizontal:'left'};
+            if(ii===0){ir.getCell(1).font={bold:true,color:{argb:'FFDC2626'}};ir.getCell(3).font={bold:true,color:{argb:'FF0984E3'}};}
+            cr++;
+        }
+        cr++;
+    }
+    var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';ws.mergeCells(cr,1,cr,5);
+    gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).alignment={horizontal:'right'};
+    gr.getCell(6).value=d.tq;gr.getCell(6).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0984E3'}};gr.getCell(6).font={bold:true,size:14,color:{argb:'FFFFFFFF'}};gr.getCell(6).alignment={horizontal:'center'};
+    var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Transfer_Routes.xlsx');
+}
+
+async function exportPUR(){
+    var sd=getSimPurch(),ns=stores.length,wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Purchase');
+    var cols=[{width:28},{width:18}];for(var s=0;s<ns;s++)cols.push({width:12});cols.push({width:12});ws.columns=cols;
+    var r1=ws.getRow(1);r1.getCell(1).value='CATEGORY';r1.getCell(2).value='MRP';for(var s=0;s<ns;s++)r1.getCell(3+s).value=stores[s];r1.getCell(3+ns).value='TOTAL';
+    r1.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});r1.getCell(1).alignment={horizontal:'left'};
+    var cr=2,gps=Array(ns).fill(0);
+    for(var c=0;c<inv.length;c++){
+        var cat=inv[c],sc=sd[c],hm=cat.mrpDetails.length>0,ml=[];
+        if(hm){for(var m=0;m<cat.mrpDetails.length;m++)ml.push({range:cat.mrpDetails[m].range,base:cat.mrpDetails[m].base,sp:sc.mrpDetails[m].present});}
+        else ml.push({range:'TOTAL',base:cat.base,sp:sc.present});
+        var cp=Array(ns).fill(0),ch=false;
+        for(var m=0;m<ml.length;m++){
+            var mr=ml[m],pv=[],rt=0,rhb=false;
+            for(var si=0;si<ns;si++){var buy=Math.max(0,(mr.base[si]||0)-(mr.sp[si]||0));pv.push(buy);rt+=buy;if(buy>0)rhb=true;}
+            if(hm&&!rhb) continue;
+            ch=true;var isT=!hm;
+            var er=ws.getRow(cr);er.getCell(1).value=cat.name;er.getCell(2).value=mr.range;
+            if(isT){er.getCell(1).font={bold:true};er.getCell(2).font={bold:true};}
+            for(var si=0;si<ns;si++){
+                cp[si]+=pv[si];gps[si]+=pv[si];var buy=pv[si],bc=er.getCell(3+si);
+                if(buy>0){bc.value=buy;bc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFECACA'}};bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}
+            }
+            var rtc=er.getCell(3+ns);rtc.value=rt;
+            if(rt>0){rtc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};rtc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFFFFFFF'}};rtc.alignment={horizontal:'center'};}
+            cr++;
+        }
+        if(hm&&ch){
+            var cT=0;for(var si=0;si<ns;si++)cT+=cp[si];
+            var trr=ws.getRow(cr);trr.getCell(1).value=cat.name;trr.getCell(2).value='TOTAL';trr.getCell(1).font={bold:true};trr.getCell(2).font={bold:true};
+            trr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};trr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};
+            for(var si=0;si<ns;si++){var bc=trr.getCell(3+si);if(cp[si]>0){bc.value=cp[si];bc.font={name:'Consolas',size:10,bold:true,color:{argb:'FFDC2626'}};bc.alignment={horizontal:'center'};}}
+            var tc=trr.getCell(3+ns);tc.value=cT;
+            if(cT>0){tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFDC2626'}};tc.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};tc.alignment={horizontal:'center'};}
+            cr++;
+        }
+    }
+    var gt=0;for(var si=0;si<ns;si++)gt+=gps[si];
+    var gr=ws.getRow(cr);gr.getCell(1).value='GRAND TOTAL';gr.getCell(1).font={bold:true,size:12,color:{argb:'FFFFFFFF'}};gr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gr.getCell(1).alignment={horizontal:'left'};
+    for(var si=0;si<ns;si++){var c=gr.getCell(3+si);c.value=gps[si];c.font={name:'Consolas',size:11,bold:true,color:{argb:'FFFFFFFF'}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};c.alignment={horizontal:'center'};}
+    var gc=gr.getCell(3+ns);gc.value=gt;gc.font={name:'Consolas',size:12,bold:true,color:{argb:'FFFFFFFF'}};gc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFB91C1C'}};gc.alignment={horizontal:'center'};
+    var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Purchase_Matrix.xlsx');
+}
+
+async function exportMatrix(){
+    var wb=new ExcelJS.Workbook(),ws=wb.addWorksheet('Stock Matrix');
+    var cols=[{width:25},{width:15}];stores.forEach(function(){cols.push({width:8},{width:8});});cols.push({width:20});ws.columns=cols;
+    var r1=ws.getRow(1);r1.getCell(1).value='Category';r1.getCell(2).value='MRP';var ci2=3;stores.forEach(function(s){r1.getCell(ci2).value=s+' TGT';r1.getCell(ci2+1).value=s+' STK';ci2+=2;});r1.getCell(ci2).value='AI';
+    r1.eachCell(function(c){c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF00B894'}};c.font={bold:true,color:{argb:'FFFFFFFF'},size:11};c.alignment={horizontal:'center',vertical:'middle'};});r1.getCell(1).alignment={horizontal:'left'};
+    var cr=2;
+    inv.forEach(function(cat){
+        if(cat.mrpDetails.length>0) cat.mrpDetails.forEach(function(mrp){
+            var row=ws.getRow(cr);row.getCell(1).value=cat.name;row.getCell(2).value=mrp.range;var dc=3;
+            stores.forEach(function(_,si){
+                row.getCell(dc).value=mrp.base[si]||0;
+                var sc=row.getCell(dc+1);sc.value=mrp.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};
+                var g=(mrp.present[si]||0)-(mrp.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};
+                dc+=2;
+            });
+            cr++;
+        });
+        var tr=ws.getRow(cr);tr.getCell(1).value=cat.name;tr.getCell(2).value='TOTAL';tr.getCell(1).font={bold:true};tr.getCell(2).font={bold:true};
+        tr.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};tr.getCell(2).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0F2F1'}};
+        var dc=3;stores.forEach(function(_,si){
+            tr.getCell(dc).value=cat.base[si]||0;
+            var sc=tr.getCell(dc+1);sc.value=cat.present[si]||0;sc.alignment={horizontal:'center'};sc.font={bold:true,name:'Consolas',size:10};
+            var g=(cat.present[si]||0)-(cat.base[si]||0);sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:g>0?'FFFECACA':g<0?'FFBBF7D0':'FFBFDBFE'}};
+            dc+=2;
+        });
+        cr++;
+    });
+    var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),'Stock_Matrix.xlsx');
+}
+
+/* ===== BRANCH ANALYSIS MODAL ===== */
+function openStM(si){
+    curBrI=si;var nm=stores[si],labels=[],tgts=[],stks=[],tT=0,tS=0,rows='';
+    inv.forEach(function(c){
+        var t=c.base[si]||0,s=c.present[si]||0;
+        if(t>0||s>0){
+            tT+=t;tS+=s;labels.push(c.name.substring(0,15));tgts.push(t);stks.push(s);
+            var g=s-t;
+            var b=g<0?'<span class="bg bd">Buy '+Math.abs(g)+'</span>':(g>0?'<span class="bg bw">Surplus</span>':'<span class="bg bs">OK</span>');
+            rows+='<div class="card p-3 mb-2" style="border-left:4px solid '+(g<0?'var(--danger)':'var(--accent)')+'"><div class="flex justify-between text-xs uppercase mb-1" style="color:var(--muted)"><span>'+c.name+'</span><span>Gap: '+(g>0?'+':'')+g+'</span></div><div class="flex justify-between items-center"><div class="mono text-xs">T: '+t+' | S: '+s+'</div><div>'+b+'</div></div></div>';
+        }
+    });
+    document.getElementById('stMB').innerHTML='<div style="height:240px;margin-bottom:18px;position:relative"><canvas id="brCh"></canvas></div><div class="grid grid-cols-2 gap-4 mb-5 text-center"><div class="p-4 rounded-xl" style="background:var(--bg)"><p class="text-xs uppercase font-bold" style="color:var(--muted)">Target</p><p class="text-2xl font-extrabold mono">'+tT+'</p></div><div class="p-4 rounded-xl" style="background:var(--info);color:white"><p class="text-xs uppercase font-bold opacity-80">Stock</p><p class="text-2xl font-extrabold mono">'+tS+'</p></div></div><h3 class="font-bold text-xs mb-3 uppercase tracking-wider" style="color:var(--muted)">Breakdown</h3><div>'+rows+'</div>';
+    document.getElementById('stMN').textContent=nm+' Analysis';
+    document.getElementById('stM').classList.remove('hd');
+    if(bChart) bChart.destroy();
+    var dk=document.body.classList.contains('dark'),tc=dk?'#e6f1ff':'#102a43';
+    bChart=new Chart(document.getElementById('brCh'),{type:'bar',data:{labels:labels,datasets:[{label:'Target',data:tgts,backgroundColor:dk?'rgba(100,255,218,.3)':'rgba(0,184,148,.3)',borderRadius:4},{label:'Stock',data:stks,backgroundColor:dk?'rgba(78,168,222,.3)':'rgba(9,132,227,.3)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:tc}}},scales:{x:{grid:{display:false},ticks:{color:tc}},y:{beginAtZero:true,ticks:{color:tc}}}}});
+}
+function closeStM(){document.getElementById('stM').classList.add('hd');}
+
+async function exportBr(){
+    if(curBrI===null) return;
+    var si=curBrI,nm=stores[si],wb=new ExcelJS.Workbook(),ws=wb.addWorksheet(nm);
+    ws.columns=[{width:25},{width:10},{width:10},{width:30}];ws.addRow(['Report: '+nm]);ws.addRow(['Category','Target','Stock','Action']);
+    inv.forEach(function(c){var p=Math.max(0,(c.base[si]||0)-(c.present[si]||0));ws.addRow([c.name,c.base[si]||0,c.present[si]||0,p>0?'Buy '+p:'OK']);});
+    var buf=await wb.xlsx.writeBuffer();saveAs(new Blob([buf]),nm+'_Report.xlsx');
+}
+
+/* ===== MANUAL ENTRY ===== */
+function addBr(){
+    if(cCon){showToast('Cannot add - connected to Sheet');return;}
+    var n=document.getElementById('nBr').value.trim().toUpperCase();
+    if(!n||stores.includes(n)) return alert('Empty or duplicate');
+    stores.push(n);
+    inv.forEach(function(c){while(c.base.length<stores.length)c.base.push(0);while(c.present.length<stores.length)c.present.push(0);c.mrpDetails.forEach(function(m){while(m.base.length<stores.length)m.base.push(0);while(m.present.length<stores.length)m.present.push(0);});});
+    enforceDI();saveData();render();document.getElementById('nBr').value='';showToast('Branch added');
+}
+
+function updMrp(){
+    var n=document.getElementById('mCat').value.toUpperCase().trim(),l=document.getElementById('mDL');l.innerHTML='';
+    if(!n) return;
+    var c=null;for(var i=0;i<inv.length;i++){if(inv[i].name===n){c=inv[i];break;}}
+    if(c&&c.mrpDetails) c.mrpDetails.forEach(function(m){var o=document.createElement('option');o.value=m.range;o.textContent=m.range;l.appendChild(o);});
+}
+
+function saveManual(){
+    var nm=document.getElementById('mCat').value.toUpperCase().trim(),mr=document.getElementById('mMrp').value.trim(),si=parseInt(document.getElementById('mBr').value),st=parseInt(document.getElementById('mVal').value)||0;
+    if(!nm||!mr||isNaN(si)) return alert('Fill all fields');
+    var idx=-1;for(var i=0;i<inv.length;i++){if(inv[i].name===nm){idx=i;break;}}
+    if(idx===-1){showToast('Category not found');return;}
+    var c=inv[idx];
+    if(si===-1){
+        if(c.mrpDetails.length>0){
+            for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){for(var i=0;i<stores.length;i++)c.mrpDetails[j].present[i]=st;enforceDI();closeManM();saveData();render();return;}}
+            showToast('MRP not found');
+        }else{for(var i=0;i<stores.length;i++)c.present[i]=st;enforceDI();closeManM();saveData();render();}
+    }else{
+        if(c.mrpDetails.length>0){
+            for(var j=0;j<c.mrpDetails.length;j++){if(c.mrpDetails[j].range===mr.toUpperCase()){c.mrpDetails[j].present[si]=st;enforceDI();closeManM();saveData();render();return;}}
+            showToast('MRP not found');
+        }else{c.present[si]=st;enforceDI();closeManM();saveData();render();}
+    }
+}
+
+/* ===== MISC ===== */
+function toggleTheme(){document.body.classList.toggle('dark');render();}
+function openManualM(){render();document.getElementById('manM').classList.remove('hd');}
+function closeManM(){document.getElementById('manM').classList.add('hd');}
+
+/* ===== INIT ===== */
+window.onload=async function(){
+    dbg('=== SUBHAM GRAND INIT ===');
+    updSync();
+    var ok = await syncLoad();
+    if(ok){
+        dbg('SUCCESS');
+        render();
+        showToast('Connected! '+stores.length+' stores, '+inv.length+' categories');
+        setTimeout(function(){document.getElementById('dbg').style.display='none';},5000);
+    }else{
+        dbg('FAIL - loading local');
+        loadLocal();
+        if(inv.length>0){
+            render();
+            showToast('Using '+inv.length+' local categories (offline)');
+        }else{
+            document.getElementById('mBody').innerHTML='<tr><td colspan="50" style="text-align:center;padding:50px 18px;border:none"><p style="font-size:16px;font-weight:800;color:var(--danger)">Could not connect to Google Sheet</p><p style="font-size:12px;color:var(--muted);margin-top:10px">Check debug log (bottom-right corner).</p><p style="font-size:11px;color:var(--muted);margin-top:8px">Requirements:</p><p style="font-size:11px;color:var(--muted)">1. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Store_Name</code> in A1</p><p style="font-size:11px;color:var(--muted)">2. A tab with <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">Category</code> in A1 and <code style="background:var(--bg);border:1px solid var(--border);padding:1px 4px;border-radius:3px">MRP/Size</code> in B1</p><p style="font-size:11px;color:var(--muted)">3. Apps Script deployed as Web App (Anyone access)</p><p style="font-size:11px;color:var(--muted)">4. Store column headers in Inventory must match Stores list exactly</p></td></tr>';
+        }
+        setTimeout(function(){document.getElementById('dbg').style.display='none';},15000);
+    }
+};
+</script>
+</body>
+</html>
